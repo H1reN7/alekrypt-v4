@@ -229,7 +229,7 @@
         import { Zap, TrendingUp, Gauge, Users, Hexagon, Terminal, DollarSign, Clock, Shield, RefreshCw, Mail, Phone, Sparkles, ArrowLeft, Target, AlertTriangle, TrendingDown, ArrowUpCircle, ArrowDownCircle, Activity } from 'lucide-react';
 
         // --- GLOBAL CONSTANTS ---
-        const UPDATE_INTERVAL_MS = 5000; 
+        const UPDATE_INTERVAL_MS = 60000; // Slowed to 60s for stability users prefer
         const apiKey = ""; // API Key
 
         // --- GEMINI API UTILITIES ---
@@ -275,8 +275,9 @@
             await new Promise(r => setTimeout(r, 800));
             
             return TRACKED_TOKENS.map((t, i) => {
-                const basePrice = t.symbol === 'WETH' ? 3200 : t.symbol === 'SOL' ? 145 : Math.random() * 10;
-                const price = basePrice * (0.95 + Math.random() * 0.1); // +/- 5% variance
+                const basePrice = t.symbol === 'WETH' ? 3200 : t.symbol === 'SOL' ? 145 : i * 10 + 5;
+                // Reduce volatility: +/- 0.5% variance instead of 5%
+                const price = basePrice * (0.995 + Math.random() * 0.01); 
                 
                 return {
                     symbol: t.symbol,
@@ -284,12 +285,13 @@
                     address: t.params.split('/')[1],
                     chainId: t.params.split('/')[0],
                     priceUsd: price,
-                    marketCapUsd: price * 10000000 * (Math.random() * 5 + 1),
-                    liquidityUsd: Math.random() * 5000000 + 500000,
-                    volume24h: Math.random() * 10000000 + 1000000,
-                    priceChangeM5: parseFloat((Math.random() * 4 - 2).toFixed(2)),
-                    priceChangeH1: parseFloat((Math.random() * 10 - 5).toFixed(2)),
-                    priceChangeD1: parseFloat((Math.random() * 30 - 15).toFixed(2)),
+                    marketCapUsd: price * 10000000 * (Math.random() * 2 + 1), // Less random MC
+                    liquidityUsd: Math.random() * 2000000 + 500000,
+                    volume24h: Math.random() * 5000000 + 1000000,
+                    // Smoother price changes
+                    priceChangeM5: parseFloat((Math.random() * 1 - 0.5).toFixed(2)),
+                    priceChangeH1: parseFloat((Math.random() * 3 - 1.5).toFixed(2)),
+                    priceChangeD1: parseFloat((Math.random() * 8 - 4).toFixed(2)),
                     pairAddress: `0xMockPair${i}`,
                     url: '#'
                 };
@@ -552,34 +554,41 @@
             };
         };
 
-        // --- GRAPH PREDICTION GENERATOR ---
+        // --- GRAPH PREDICTION GENERATOR (High Precision) ---
         const generateMockChartData = (currentPrice, score) => {
              const data = [];
              const now = new Date();
-             let price = currentPrice * 0.95; // Start slightly lower
              
-             // Past data
-             for (let i = 0; i < 20; i++) {
-                 data.push({
-                     time: new Date(now.getTime() - (20 - i) * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
-                     price: price,
-                     ma: price * (1 + (Math.random() * 0.02 - 0.01)),
-                     prediction: null
-                 });
-                 price = price * (1 + (Math.random() * 0.01 - 0.005) + (score > 60 ? 0.001 : -0.001));
-             }
-             
-             // Future prediction
-             let predPrice = price; // Start prediction from last known price
-             data[data.length - 1].prediction = price; // Connect lines
-             
-             for (let i = 0; i < 10; i++) {
-                 // Prediction Logic: Higher score = steeper slope
-                 const slope = (score - 50) / 5000; 
-                 predPrice = predPrice * (1 + slope + (Math.random() * 0.005 - 0.0025));
+             // Generate smoother past data using sine wave + trend
+             let price = currentPrice;
+             for (let i = 19; i >= 0; i--) {
+                 // Create a natural looking curve
+                 const timeOffset = i * 0.2; 
+                 const noise = (Math.random() - 0.5) * (currentPrice * 0.002); // Small noise
+                 const trend = (score > 50 ? -1 : 1) * (i * currentPrice * 0.001); // Trend leading up to current
+                 
+                 const histPrice = price + trend + noise + Math.sin(timeOffset) * (currentPrice * 0.005);
                  
                  data.push({
-                     time: new Date(now.getTime() + (i + 1) * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                     time: new Date(now.getTime() - i * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                     price: histPrice,
+                     ma: histPrice * (1 + (Math.random() * 0.005 - 0.0025)), // Tighter MA
+                     prediction: null
+                 });
+             }
+             
+             // Future prediction based on Pump Score
+             // Score 0-100: 50 is flat, 100 is moon, 0 is dump
+             let predPrice = data[data.length-1].price;
+             data[data.length - 1].prediction = predPrice; // Connect lines
+             
+             const momentum = (score - 50) / 2500; // 0.02 max slope per minute
+             
+             for (let i = 1; i <= 10; i++) {
+                 predPrice = predPrice * (1 + momentum + (Math.random() * 0.002 - 0.001));
+                 
+                 data.push({
+                     time: new Date(now.getTime() + i * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
                      price: null,
                      ma: null,
                      prediction: predPrice
@@ -761,16 +770,71 @@
                                 </div>
 
                                 {selectedToken.pumpScore.tradingSignal && (
-                                     <div className="dark-card p-6 mb-8 border border-gray-800">
-                                        <h3 className="text-lg font-bold text-white mb-2">Trading Signal: <span className="text-cyan-500">{selectedToken.pumpScore.tradingSignal.signal}</span></h3>
-                                        <p className="text-gray-400 text-sm">{selectedToken.pumpScore.tradingSignal.reasoning.join(", ")}</p>
+                                     <div className="dark-card p-6 mb-8 border border-gray-800 relative overflow-hidden">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
+                                        <h3 className="text-lg font-bold text-white mb-2 flex items-center">
+                                            <Target className="w-5 h-5 mr-2 text-cyan-500" />
+                                            Trading Signal: <span className="text-cyan-500 ml-2">{selectedToken.pumpScore.tradingSignal.signal}</span>
+                                        </h3>
+                                        <p className="text-gray-400 text-sm mb-4">{selectedToken.pumpScore.tradingSignal.reasoning.join(", ")}</p>
+                                        
+                                        <div className="flex justify-between items-center border-t border-gray-900 pt-4">
+                                            <div className="text-xs text-gray-500 uppercase tracking-widest">Entry Timing</div>
+                                            <div className={`font-mono font-bold ${selectedToken.pumpScore.tradingSignal.entryTiming === 'PERFECT' ? 'text-emerald-400' : 'text-yellow-400'}`}>
+                                                {selectedToken.pumpScore.tradingSignal.entryTiming}
+                                            </div>
+                                        </div>
                                      </div>
                                 )}
+
+                                {/* Risk/Reward Analysis (Restored) */}
+                                {selectedToken.pumpScore.riskReward && (
+                                    <div className="dark-card p-6 mb-8 border border-gray-800">
+                                        <h3 className="text-lg font-bold text-white mb-6 flex items-center">
+                                            <Shield className="w-5 h-5 mr-2 text-cyan-500" />
+                                            Risk/Reward Analysis
+                                        </h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                            <div className="data-point-minimal bg-black/50">
+                                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Stop Loss</p>
+                                                <p className="text-red-500 font-mono font-bold text-xl mb-1">{formatCurrency(selectedToken.pumpScore.riskReward.stopLoss.price, 6)}</p>
+                                                <p className="text-xs text-gray-600">-{selectedToken.pumpScore.riskReward.stopLoss.percent}%</p>
+                                            </div>
+                                            <div className="data-point-minimal bg-black/50">
+                                                <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">R:R Ratio</p>
+                                                <p className="text-cyan-500 font-mono font-bold text-2xl mb-1">{selectedToken.pumpScore.riskReward.riskRewardRatio}x</p>
+                                                <p className="text-xs text-gray-600">{selectedToken.pumpScore.riskReward.recommendedPositionSize}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-600 uppercase tracking-wider mb-4">Take Profit Targets</p>
+                                            <div className="grid grid-cols-3 gap-2">
+                                                {selectedToken.pumpScore.riskReward.targets.map((target) => (
+                                                    <div key={target.level} className="p-3 border border-gray-800 text-center hover:border-cyan-500/30 transition-colors">
+                                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">{target.label}</p>
+                                                        <p className="text-cyan-500 font-mono font-bold text-sm">{formatCurrency(target.price, 6)}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Momentum Indicators (Restored) */}
+                                {selectedToken.pumpScore.momentum && (
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                        <DataPoint icon={Activity} title="RSI" value={selectedToken.pumpScore.momentum.rsi} valueColor={selectedToken.pumpScore.momentum.rsi > 70 ? 'text-red-400' : 'text-white'} />
+                                        <DataPoint icon={Zap} title="Trend" value={selectedToken.pumpScore.momentum.trendStrength} valueColor="text-cyan-400" />
+                                        <DataPoint icon={Users} title="Whales" value={selectedToken.pumpScore.momentum.accumulation} valueColor="text-white" />
+                                        <DataPoint icon={Target} title="Volume" value={selectedToken.pumpScore.momentum.volumeSpike} valueColor={selectedToken.pumpScore.momentum.hasVolumeSpike ? 'text-emerald-400' : 'text-gray-400'} />
+                                    </div>
+                                )}\n
 
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                                     <DataPoint icon={Gauge} title="Market Cap" value={formatCurrency(selectedToken.marketCapUsd/1000000) + 'M'} />
                                     <DataPoint icon={Clock} title="24h Volume" value={formatCurrency(selectedToken.volume24h/1000000) + 'M'} />
                                     <DataPoint icon={TrendingUp} title="24h Change" value={selectedToken.priceChangeD1.toFixed(2) + '%'} valueColor={selectedToken.priceChangeD1 >= 0 ? 'text-emerald-400' : 'text-red-400'} />
+                                    <DataPoint icon={Shield} title="Safety" value={selectedToken.pumpScore.safetyReport.score} valueColor={selectedToken.pumpScore.safetyReport.score > 80 ? 'text-emerald-400' : 'text-red-400'} />
                                 </div>
 
                                 <div className="h-64 dark-card p-6 mb-8">
@@ -785,6 +849,44 @@
                                             <Area type="monotone" dataKey="prediction" stroke="#8b5cf6" fill="url(#colorPrice)" strokeWidth={2} strokeDasharray="5 5" />
                                         </AreaChart>
                                     </ResponsiveContainer>
+                                </div>
+
+                                {/* Bot Analysis (Restored) */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                    <div className="dark-card p-6 md:col-span-2 border border-gray-800">
+                                        <h3 className="text-white font-bold text-sm mb-4 flex items-center uppercase tracking-wider">
+                                            <Sparkles className="w-4 h-4 mr-2 text-cyan-500"/> 
+                                            Bot Analysis
+                                        </h3>
+                                        <p className="text-sm text-gray-400 leading-relaxed font-mono">
+                                            "ANALYSIS: {selectedToken.symbol} displaying {selectedToken.pumpScore.tradingSignal.signal} signals. 
+                                            Whale accumulation is {selectedToken.pumpScore.momentum.accumulation > 50 ? 'HIGH' : 'MODERATE'}. 
+                                            Volatility suggested {selectedToken.pumpScore.riskReward.riskRewardRatio}x potential returns.
+                                            RECOMMENDATION: {selectedToken.pumpScore.tradingSignal.entryTiming === 'PERFECT' ? 'IMMEDIATE ENTRY' : 'MONITOR'}."
+                                        </p>
+                                    </div>
+                                    <div className="dark-card p-6 border border-gray-800">
+                                        <h3 className="text-white font-bold text-sm mb-4 flex items-center uppercase tracking-wider">
+                                            <Shield className="w-4 h-4 mr-2 text-cyan-500"/> 
+                                            Safety Scan
+                                        </h3>
+                                        <div className="space-y-3 text-sm">
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-600">Audit</span>
+                                                <span className="text-cyan-500">{selectedToken.pumpScore.safetyReport.auditStatus}</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-600">Liquidity</span>
+                                                <span className="text-cyan-500">{selectedToken.pumpScore.safetyReport.lpLockPercent}% Locked</span>
+                                            </div>
+                                            <div className="flex justify-between">
+                                                <span className="text-gray-600">Honeypot</span>
+                                                <span className={selectedToken.pumpScore.safetyReport.isHoneypot ? "text-red-500" : "text-emerald-500"}>
+                                                    {selectedToken.pumpScore.safetyReport.isHoneypot ? 'DETECTED' : 'SAFE'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
