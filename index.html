@@ -915,9 +915,15 @@ const calculatePumpScore = (token, whales = []) => {
             const [gossip, setGossip] = useState("Loading Gossip...");
 
             const refreshData = async () => {
-                setGossip("Analyzing on-chain data...");
+                setGossip("Establishing secure connection to DexScreener...");
                 const realTokens = await fetchDexScreenerData();
-                const rawWhales = mockArkhamAPI(); // Still mock whales for now as Arkham API is paid/complex
+                
+                if (realTokens.length === 0) {
+                    setGossip("⚠️ CONNECTION FAILED. Run local server (python3 -m http.server) to bypass browser security.");
+                    return;
+                }
+
+                const rawWhales = mockArkhamAPI(); 
                 
                 const scored = realTokens.map(t => ({ 
                     ...t, 
@@ -926,7 +932,7 @@ const calculatePumpScore = (token, whales = []) => {
                 
                 setTokens(scored);
                 setWhales(rawWhales);
-                setGossip("Live market data updated. Monitoring new whale movements...");
+                setGossip("Live market data updated. Monitoring whale movements...");
             };
 
             useEffect(() => {
@@ -964,13 +970,13 @@ const calculatePumpScore = (token, whales = []) => {
                     <header className="mb-12 pb-6 border-b border-gray-900">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                             <div className="flex items-center gap-4 w-full justify-center sm:justify-start">
-                                {/* LOGO IMAGE REPLACEMENT */}
-                                <div className="relative group">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                                {/* LOGO - Blended Naturally */}
+                                <div className="relative group mix-blend-screen">
+                                    <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
                                     <img 
                                         src="assets/logo.png" 
                                         alt="Alekrypt Logo" 
-                                        className="relative h-16 sm:h-20 object-contain"
+                                        className="relative h-24 sm:h-28 object-contain opacity-90 hover:opacity-100 transition duration-500 drop-shadow-[0_0_15px_rgba(0,243,255,0.5)]"
                                     />
                                 </div>
                             </div>
