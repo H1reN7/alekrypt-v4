@@ -44,26 +44,6 @@
             pointer-events: none;
         }
         
-        /* Subtle scanline effect */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(6, 182, 212, 0.02) 2px,
-                rgba(6, 182, 212, 0.02) 4px
-            );
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.3;
-        }
-        
         .neon-title { 
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
@@ -124,11 +104,6 @@
             pointer-events: none;
         }
         
-        /* Glow on hover */
-        .hover-glow:hover {
-            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
-        }
-        
         /* Minimal button */
         .minimal-btn {
             background: transparent;
@@ -173,197 +148,57 @@
             color: #06b6d4;
             font-size: 0.75rem;
         }
-        
-        /* --- NEO-TOKYO THEME --- */
-        :root {
-            --bg-color: #050505;
-            --card-bg: #0a0a0a;
-            --neon-cyan: #00f3ff;
-            --neon-pink: #ff0099;
-            --neon-purple: #bc13fe;
-            --text-main: #e0e0e0;
-            --text-muted: #888;
-            --border-color: #333;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Space Grotesk', monospace;
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        /* Glitch Effect Utility */
-        .glitch-text {
-            position: relative;
-        }
-        .glitch-text::before,
-        .glitch-text::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-color);
-        }
-        .glitch-text::before {
-            left: 2px;
-            text-shadow: -1px 0 var(--neon-pink);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-        .glitch-text::after {
-            left: -2px;
-            text-shadow: -1px 0 var(--neon-cyan);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim2 5s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            0% { clip: rect(38px, 9999px, 81px, 0); }
-            20% { clip: rect(6px, 9999px, 19px, 0); }
-            40% { clip: rect(74px, 9999px, 51px, 0); }
-            60% { clip: rect(18px, 9999px, 96px, 0); }
-            80% { clip: rect(60px, 9999px, 6px, 0); }
-            100% { clip: rect(27px, 9999px, 7px, 0); }
-        }
-        @keyframes glitch-anim2 {
-            0% { clip: rect(56px, 9999px, 14px, 0); }
-            20% { clip: rect(21px, 9999px, 99px, 0); }
-            40% { clip: rect(10px, 9999px, 49px, 0); }
-            60% { clip: rect(98px, 9999px, 4px, 0); }
-            80% { clip: rect(23px, 9999px, 69px, 0); }
-            100% { clip: rect(79px, 9999px, 17px, 0); }
-        }
-
-        /* Cyber Card */
-        .dark-card {
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid var(--border-color);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.05); /* Slight cyan glow */
-            backdrop-filter: blur(5px);
-            position: relative;
-            overflow: hidden;
-        }
-        .dark-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
-            opacity: 0.5;
-        }
-        .dark-card:hover {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
-        }
-
-        /* Neon Buttons */
-        .minimal-btn {
-            background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            text-transform: uppercase;
-            font-family: 'Space Grotesk', monospace;
-            font-weight: 700;
-            letter-spacing: 1px;
-            padding: 8px 16px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        .minimal-btn:hover {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-        .minimal-btn.active {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        /* Scanning Line Animation overlay on dashboard */
-        .scanline {
-            width: 100%;
-            height: 2px;
-            background: rgba(0, 243, 255, 0.1);
-            position: fixed;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 9999;
-            animation: scan 4s linear infinite;
-        }
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { top: 100%; opacity: 0; }
-        }
-
-        .neon-title {
-            color: #fff;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--neon-cyan);
-        }
 
         .score-badge {
             font-family: 'Space Grotesk', monospace;
             font-weight: 700;
             padding: 0.25rem 0.75rem;
-            background: rgba(0,0,0,0.5);
+            background: #1a1a1a;
             border: 1px solid #333;
             color: #fff;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
         }
         
         .score-badge.high {
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
-            text-shadow: 0 0 5px var(--neon-cyan);
-            box-shadow: 0 0 5px var(--neon-cyan), inset 0 0 5px var(--neon-cyan);
+            border-color: #06b6d4;
+            color: #06b6d4;
         }
         
         .score-badge.medium {
-            border-color: var(--neon-purple);
-            color: var(--neon-purple);
-            text-shadow: 0 0 5px var(--neon-purple);
+            border-color: #a855f7;
+            color: #a855f7;
         }
         
         .score-badge.low {
-            border-color: var(--neon-pink);
-            color: var(--neon-pink);
-            text-shadow: 0 0 5px var(--neon-pink);
+            border-color: #ef4444;
+            color: #ef4444;
         }
 
-        /* Pulse Dot customized */
         .pulse-dot {
             width: 8px;
             height: 8px;
-            background: var(--neon-cyan);
+            background: #06b6d4;
             border-radius: 50%;
-            box-shadow: 0 0 10px var(--neon-cyan);
-            animation: pulse 1s infinite alternate;
+            animation: pulse 2s infinite;
         }
         
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(6, 182, 212, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
         }
-        ::-webkit-scrollbar-track {
-            background: #050505; 
+        
+        .table-row-minimal {
+            border-bottom: 1px solid #111;
+            transition: background 0.2s;
         }
-        ::-webkit-scrollbar-thumb {
-            background: #333; 
-            border: 1px solid #000;
+        .table-row-minimal:hover {
+            background: #151515;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-cyan); 
+        
+        .data-point-minimal {
+            background: #111;
+            border: 1px solid #1a1a1a;
+            padding: 1.5rem;
         }
     </style>
 
@@ -394,14 +229,12 @@
         import { Zap, TrendingUp, Gauge, Users, Hexagon, Terminal, DollarSign, Clock, Shield, RefreshCw, Mail, Phone, Sparkles, ArrowLeft, Target, AlertTriangle, TrendingDown, ArrowUpCircle, ArrowDownCircle, Activity } from 'lucide-react';
 
         // --- GLOBAL CONSTANTS ---
-        const UPDATE_INTERVAL_MS = 300000; 
+        const UPDATE_INTERVAL_MS = 5000; 
         const apiKey = ""; // API Key
 
         // --- GEMINI API UTILITIES ---
         const callGeminiAPI = async (prompt) => {
-            // Function to call the AI model (kept for future expansion, currently mocked)
             try {
-                // In a real application, you would implement fetch with exponential backoff here.
                 return "Analysis: Whale activity spiking, suggesting imminent pump. Safety check passed. High risk, high reward profile.";
             } catch (error) {
                 console.error("Gemini Error:", error);
@@ -409,8 +242,7 @@
             }
         };
 
-        // --- TOKEN CONFIGURATION (REAL CONTRACTS) ---
-        // Note: Using WETH/USDC, SOL/USDC, etc. main pools for accuracy
+        // --- TOKEN CONFIGURATION ---
         const TRACKED_TOKENS = [
             { symbol: 'WETH', params: 'ethereum/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' }, // WETH
             { symbol: 'SOL', params: 'solana/So11111111111111111111111111111111111111112' },   // WSOL
@@ -426,7 +258,6 @@
 
         // --- CHART & DATA GENERATORS ---
         const formatCurrency = (value, decimals = 2) => {
-             // Handle extremely small numbers (like PEPE)
             if (value < 0.01) decimals = 8;
             else if (value < 1) decimals = 4;
 
@@ -439,8 +270,6 @@
         };
         
         // --- SIMULATION MODE (Mock Data for Standalone Use) ---
-        // Browser security (CORS) blocks real API calls when opening files directly.
-        // We use this robust simulation so the user gets a working app immediately.
         const mockDexscreenerAPI = async () => {
             // Simulate network delay for realism
             await new Promise(r => setTimeout(r, 800));
@@ -481,336 +310,299 @@
         };
 
         // --------------------
-// --------------------
-// 3.0 HYPER-PUMP ENGINE (INSTITUTIONAL GRADE)
-// --------------------
+        // 3.0 HYPER-PUMP ENGINE (INSTITUTIONAL GRADE)
+        // --------------------
 
-// Helper: Sigmoid function for smoother scoring transitions
-const sigmoid = (x, k = 0.1, x0 = 50) => 100 / (1 + Math.exp(-k * (x - x0)));
-const clamp = (val, min = 0, max = 100) => Math.max(min, Math.min(max, val));
+        // Helper: Sigmoid function for smoother scoring transitions
+        const sigmoid = (x, k = 0.1, x0 = 50) => 100 / (1 + Math.exp(-k * (x - x0)));
+        const clamp = (val, min = 0, max = 100) => Math.max(min, Math.min(max, val));
 
-// 1️⃣ Liquidity Quality (Enhanced)
-// Penalize too low (scam risk) AND too high (hard to move)
-const liquidityScore = (t) => {
-    if (t.liquidityUsd < 50_000) return 0; // Unsafe
-    if (t.liquidityUsd > 10_000_000) return 60; // Too heavy to pump hard
-    
-    // Optimal range: 200k - 2M
-    if (t.liquidityUsd >= 200_000 && t.liquidityUsd <= 2_000_000) return 100;
-    
-    return clamp((t.liquidityUsd / 2_000_000) * 100);
-};
-
-// 2️⃣ Volume Strength (Exponential)
-const volumeScore = (t) => {
-    const volToLiq = t.volume24h / Math.max(t.liquidityUsd, 1);
-    // Exponential curve: requires significant volume relative to liquidity to score high
-    // Ratio of 0.5 -> score ~20
-    // Ratio of 1.0 -> score ~50
-    // Ratio of 2.0 -> score ~90
-    return clamp(sigmoid(volToLiq * 50, 0.1, 50)); 
-};
-
-// 3️⃣ Price Momentum (Weighted Timeframes)
-const momentumScore = (t) => {
-    // Recent momentum (M5) is most critical for pumps
-    const m5score = t.priceChangeM5 > 0 ? clamp(t.priceChangeM5 * 10) : 0; 
-    const h1score = t.priceChangeH1 > 0 ? clamp(t.priceChangeH1 * 2) : 0;
-    
-    // Check for "Uptrend Structure"
-    const aligned = (t.priceChangeM5 > 0 && t.priceChangeH1 > 0) ? 20 : 0;
-    
-    return clamp((m5score * 0.6) + (h1score * 0.4) + aligned);
-};
-
-// 4️⃣ Volatility Efficiency
-// We want "Good Volatility" (Upwards) not just any volatility
-const volatilityScore = (t) => {
-    if (t.priceChangeM5 < -2) return 10; // Dumping currently
-    const range = Math.abs(t.priceChangeM5);
-    // Sweet spot: 1-5% movement in 5 mins is ideal for active pumps
-    if (range > 1 && range < 5) return 100;
-    if (range >= 5) return 60; // Too chaotic
-    return 40; // Too dead
-};
-
-// 5️⃣ Market Cap Potential
-const marketCapScore = (t) => {
-    // The "Golden Zone" for 100x gems is usually 500k - 5M MC
-    if (t.marketCapUsd < 500_000) return 30; // Micro cap risk
-    if (t.marketCapUsd > 100_000_000) return 20; // Large cap, slow mover
-    
-    if (t.marketCapUsd >= 500_000 && t.marketCapUsd <= 5_000_000) return 100;
-    if (t.marketCapUsd > 5_000_000 && t.marketCapUsd <= 20_000_000) return 70;
-    
-    return 50;
-};
-
-// 6️⃣ Whale Dominance & Smart Money
-const whaleScore = (token, whales = []) => {
-    if (!whales || whales.length === 0) return 50;
-    
-    const tokenWhales = whales.filter(w => w.token === token.symbol);
-    if (tokenWhales.length === 0) return 40;
-    
-    const buys = tokenWhales.filter(w => w.type === 'BUY');
-    const sells = tokenWhales.filter(w => w.type === 'SELL');
-    
-    const buyVol = buys.reduce((sum, w) => sum + w.valueUsd, 0);
-    const sellVol = sells.reduce((sum, w) => sum + w.valueUsd, 0);
-    const netFlow = buyVol - sellVol;
-    
-    // Net Flow Score
-    let flowScore = 50;
-    if (netFlow > 100_000) flowScore = 100;
-    else if (netFlow > 10_000) flowScore = 75;
-    else if (netFlow < -10_000) flowScore = 25;
-    
-    // Smart Wallet Presence (Mocked detection of 'Smart Money' label)
-    const smartMoneyCount = tokenWhales.filter(w => w.entityLabel === 'Smart Money' || w.entityLabel === 'Fund').length;
-    const smartScore = clamp(smartMoneyCount * 25);
-    
-    return clamp(flowScore * 0.7 + smartScore * 0.3);
-};
-
-// 7️⃣ Order Book Depth (Simulated via Liquidity Health)
-const liquidityHealthScore = (t) => {
-    // If liquidity is < 10% of MC, slippery slope (dangerous)
-    // If liquidity is > 50% of MC, rigid price (hard to push)
-    const ratio = t.liquidityUsd / t.marketCapUsd;
-    
-    if (ratio < 0.10) return 30; // Rug risk
-    if (ratio > 0.50) return 40; // Over-liquid
-    
-    // Ideal: 15% - 30%
-    if (ratio >= 0.15 && ratio <= 0.30) return 100;
-    return 70;
-};
-
-// 8️⃣ Manipulation & Wash Trading Check
-const manipulationScore = (t) => {
-    // Warning if Volume > 5x Liquidity (High probability of wash trading)
-    if (t.volume24h > t.liquidityUsd * 5) return 10;
-    // Warning if Volume > 2x Liquidity
-    if (t.volume24h > t.liquidityUsd * 2) return 40;
-    return 95;
-};
-
-// 9️⃣ Safety Core (Mocked)
-const safetyScore = () => {
-    // In real app, this parses contract code
-    const baseRisk = Math.random();
-    const isSafe = baseRisk > 0.1;
-    
-    return {
-        score: isSafe ? 90 : 10,
-        honeypot: !isSafe,
-        ownerPrivileges: isSafe ? "Renounced" : "Active (Risk)",
-        auditStatus: isSafe ? "Passed" : "Unverified",
-        lpLockPercent: isSafe ? 98 : Math.floor(Math.random() * 40)
-    };
-};
-
-// 🚨 HARD FILTER (Gatekeeper)
-const passHardFilters = (t) => {
-    if (t.liquidityUsd < 10_000) return false; // Dust
-    if (t.priceChangeM5 < -15) return false; // Crashing hard
-    return true;
-};
-
-// 📊 ADVANCED TRADING SIGNAL
-const generateTradingSignal = (token, pumpScore, momentum, riskReward) => {
-    const { score, safetyReport } = pumpScore;
-    const { rsi, trendStrength, volumeSpike } = momentum;
-    
-    let signal = 'HOLD';
-    let confidence = 50;
-    let reasoning = [];
-    
-    // 1. Safety First
-    if (safetyReport.isHoneypot) {
-        return { signal: 'AVOID', confidence: 100, entryTiming: 'NEVER', reasoning: ['Honeypot detected', 'Unsafe contract'], riskLevel: 'EXTREME' };
-    }
-
-    // 2. Logic Tree
-    if (score >= 85) {
-        // High Score
-        if (trendStrength > 70 && rsi < 80) {
-            signal = 'STRONG_BUY';
-            confidence = 90;
-            reasoning.push('Elite Pump Score (90+)');
-            reasoning.push('Instituonal Volume Inflow');
-        } else if (rsi > 85) {
-            signal = 'WAIT'; // Too hot
-            confidence = 60;
-            reasoning.push('Score is high but RSI is Overbought');
-        } else {
-            signal = 'BUY';
-            confidence = 75;
-            reasoning.push('Solid fundamentals, good entry');
-        }
-    } else if (score >= 65) {
-        // Mid Score
-        if (volumeSpike > 60 && trendStrength > 50) {
-            signal = 'BUY';
-            confidence = 70;
-            reasoning.push('Momentum building up');
-            reasoning.push('Volume breakout detected');
-        } else {
-            signal = 'HOLD';
-            confidence = 50;
-            reasoning.push('Good metrics, waiting for volume');
-        }
-    } else if (score < 40) {
-        signal = 'SELL';
-        confidence = 80;
-        reasoning.push('Momentum lost');
-        reasoning.push('Bearish flow detected');
-    }
-
-    // Risk Level Definition
-    const riskLevel = score > 80 ? 'LOW' : score > 50 ? 'MEDIUM' : 'HIGH';
-
-    return {
-        signal,
-        confidence,
-        entryTiming: rsi < 40 ? 'PERFECT' : rsi < 60 ? 'GOOD' : 'WAIT FOR DIP',
-        reasoning,
-        riskLevel
-    };
-};
-
-// 💰 KELLY CRITERION RISK CALCULATOR
-const calculateRiskReward = (token, pumpScoreVal) => {
-    const currentPrice = token.priceUsd;
-    
-    // Dynamic ATR-based Stop Loss (Simulated ATR via volatility)
-    const atrFactor = Math.max(Math.abs(token.priceChangeM5), 1.5);
-    const stopLossPercent = atrFactor * 0.5; // Tight stop for scalps
-    const stopLossPrice = currentPrice * (1 - stopLossPercent / 100);
-    
-    // Targets based on Fibonacci extensions of the "pump" (simulated)
-    const target1Percent = stopLossPercent * 2; // 1:2 R:R
-    const target2Percent = stopLossPercent * 4; // 1:4 R:R
-    const target3Percent = stopLossPercent * 8; // Moonbag
-    
-    const target1Price = currentPrice * (1 + target1Percent / 100);
-    const target2Price = currentPrice * (1 + target2Percent / 100);
-    const target3Price = currentPrice * (1 + target3Percent / 100);
-    
-    // Risk Reward Ratio
-    const rrRatio = (target2Percent / stopLossPercent).toFixed(1);
-    
-    // Kelly Criterion for sizing (Simplified)
-    // f* = (bp - q) / b
-    // where b = odds received (rrRatio), p = probability of win (confidence/100), q = prob of loss (1-p)
-    // We dampen it by half for safety (Half Kelly)
-    
-    // We need "confidence" from the future signal generation step, but here we can approximate or pass it in.
-    // Let's assume a Win Rate derived from pump score
-    const winRate = clamp(pumpScoreVal / 100, 0.3, 0.7); // 30% to 70% win rate
-    const b = parseFloat(rrRatio);
-    const kellyPct = ((b * winRate - (1 - winRate)) / b) * 0.5; // Half kelly
-    
-    let positionSize = 'NO TRADE';
-    if (kellyPct > 0.10) positionSize = 'Aggressive (10% Balance)';
-    else if (kellyPct > 0.05) positionSize = 'Moderate (5% Balance)';
-    else if (kellyPct > 0.01) positionSize = 'Conservative (1-2% Balance)';
-    
-    return {
-        stopLoss: { price: stopLossPrice, percent: stopLossPercent.toFixed(2) },
-        targets: [
-            { level: 1, price: target1Price, percent: target1Percent.toFixed(2), label: 'Scalp' },
-            { level: 2, price: target2Price, percent: target2Percent.toFixed(2), label: 'Swing' },
-            { level: 3, price: target3Price, percent: target3Percent.toFixed(2), label: 'Moon' }
-        ],
-        riskRewardRatio: rrRatio,
-        recommendedPositionSize: positionSize
-    };
-};
-
-// 🚀 MAIN CALCULATOR
-const calculatePumpScore = (token, whales = []) => {
-    if (!passHardFilters(token)) {
-         return {
-            score: 0,
-            marketScore: 0,
-            whaleScore: 0,
-            safetyReport: { auditStatus: "Rejected", lpLockPercent: 0, warnings: ["Hard Filter Rejection"], isHoneypot: true, ownerPrivileges: "Unknown" },
-            momentum: { rsi: 50, trendStrength: 0, volumeSpike: 0, accumulation: 0, isOversold: false, isOverbought: false, hasVolumeSpike: false },
-            tradingSignal: { signal: 'AVOID', confidence: 0, entryTiming: 'NEVER', reasoning: ['Failed hard filters'], riskLevel: 'HIGH' },
-            riskReward: null
+        // 1️⃣ Liquidity Quality
+        const liquidityScore = (t) => {
+            if (t.liquidityUsd < 50_000) return 0; // Unsafe
+            if (t.liquidityUsd > 10_000_000) return 60; // Too heavy
+            if (t.liquidityUsd >= 200_000 && t.liquidityUsd <= 2_000_000) return 100;
+            return clamp((t.liquidityUsd / 2_000_000) * 100);
         };
-    }
 
-    const s_liq = liquidityScore(token);
-    const s_vol = volumeScore(token);
-    const s_mom = momentumScore(token);
-    const s_vola = volatilityScore(token);
-    const s_mc = marketCapScore(token);
-    const s_wh = whaleScore(token, whales);
-    const s_lh = liquidityHealthScore(token);
-    const s_manip = manipulationScore(token);
-    const safety = safetyScore();
+        // 2️⃣ Volume Strength
+        const volumeScore = (t) => {
+            const volToLiq = t.volume24h / Math.max(t.liquidityUsd, 1);
+            return clamp(sigmoid(volToLiq * 50, 0.1, 50)); 
+        };
 
-    // Weighted Final Score
-    const finalScore = clamp(
-        s_liq * 0.10 +
-        s_vol * 0.15 +     // Volume is king
-        s_mom * 0.15 +     // Trend is queen
-        s_vola * 0.05 +
-        s_mc * 0.10 +      // Right size matters
-        s_wh * 0.20 +      // Follow the smart money (Higher weight)
-        s_lh * 0.10 +
-        s_manip * 0.05 +
-        safety.score * 0.10 // Safety must be present
-    );
+        // 3️⃣ Price Momentum
+        const momentumScore = (t) => {
+            const m5score = t.priceChangeM5 > 0 ? clamp(t.priceChangeM5 * 10) : 0; 
+            const h1score = t.priceChangeH1 > 0 ? clamp(t.priceChangeH1 * 2) : 0;
+            const aligned = (t.priceChangeM5 > 0 && t.priceChangeH1 > 0) ? 20 : 0;
+            return clamp((m5score * 0.6) + (h1score * 0.4) + aligned);
+        };
 
-    // Calc Sub-components
-    const momentum = {
-        rsi: Math.round(clamp(50 + token.priceChangeM5 * 2, 0, 100)),
-        trendStrength: Math.round(s_mom),
-        volumeSpike: Math.round(s_vol),
-        accumulation: Math.round(s_wh), // Whale score proxies accumulation
-        isOversold: (50 + token.priceChangeM5 * 2) < 30,
-        isOverbought: (50 + token.priceChangeM5 * 2) > 70,
-        hasVolumeSpike: s_vol > 70
-    };
+        // 4️⃣ Volatility Efficiency
+        const volatilityScore = (t) => {
+            if (t.priceChangeM5 < -2) return 10; // Dumping
+            const range = Math.abs(t.priceChangeM5);
+            if (range > 1 && range < 5) return 100;
+            if (range >= 5) return 60; // Too chaotic
+            return 40; // Too dead
+        };
 
-    // Calc Risk Reward FIRST to pass to Signal if needed, or vice-versa. 
-    // Here we calculate RR first based on raw metrics.
-    const riskReward = calculateRiskReward(token, finalScore);
-    
-    // Gen Signal
-    const tradingSignal = generateTradingSignal(token, { score: finalScore, safetyReport: safety }, momentum, riskReward);
+        // 5️⃣ Market Cap Potential
+        const marketCapScore = (t) => {
+            if (t.marketCapUsd < 500_000) return 30; // Micro cap
+            if (t.marketCapUsd > 100_000_000) return 20; // Large cap
+            if (t.marketCapUsd >= 500_000 && t.marketCapUsd <= 5_000_000) return 100;
+            if (t.marketCapUsd > 5_000_000 && t.marketCapUsd <= 20_000_000) return 70;
+            return 50;
+        };
 
-    return {
-        score: Math.round(finalScore),
-        marketScore: Math.round((s_mom + s_vol + s_mc) / 3),
-        whaleScore: Math.round(s_wh),
-        safetyReport: safety,
-        momentum,
-        tradingSignal,
-        riskReward
-    };
-};
+        // 6️⃣ Whale Dominance
+        const whaleScore = (token, whales = []) => {
+            if (!whales || whales.length === 0) return 50;
+            const tokenWhales = whales.filter(w => w.token === token.symbol);
+            if (tokenWhales.length === 0) return 40;
+            
+            const buys = tokenWhales.filter(w => w.type === 'BUY');
+            const sells = tokenWhales.filter(w => w.type === 'SELL');
+            
+            const buyVol = buys.reduce((sum, w) => sum + w.valueUsd, 0);
+            const sellVol = sells.reduce((sum, w) => sum + w.valueUsd, 0);
+            const netFlow = buyVol - sellVol;
+            
+            let flowScore = 50;
+            if (netFlow > 100_000) flowScore = 100;
+            else if (netFlow > 10_000) flowScore = 75;
+            else if (netFlow < -10_000) flowScore = 25;
+            
+            const smartMoneyCount = tokenWhales.filter(w => w.entityLabel === 'Smart Money' || w.entityLabel === 'Fund').length;
+            const smartScore = clamp(smartMoneyCount * 25);
+            
+            return clamp(flowScore * 0.7 + smartScore * 0.3);
+        };
 
-// --- COMPONENTS ---
+        // 7️⃣ Order Book Depth
+        const liquidityHealthScore = (t) => {
+            const ratio = t.liquidityUsd / t.marketCapUsd;
+            if (ratio < 0.10) return 30; // Rug risk
+            if (ratio > 0.50) return 40; // Over-liquid
+            if (ratio >= 0.15 && ratio <= 0.30) return 100;
+            return 70;
+        };
+
+        // 8️⃣ Manipulation Check
+        const manipulationScore = (t) => {
+            if (t.volume24h > t.liquidityUsd * 5) return 10;
+            if (t.volume24h > t.liquidityUsd * 2) return 40;
+            return 95;
+        };
+
+        // 9️⃣ Safety Core
+        const safetyScore = () => {
+            const baseRisk = Math.random();
+            const isSafe = baseRisk > 0.1;
+            return {
+                score: isSafe ? 90 : 10,
+                honeypot: !isSafe,
+                ownerPrivileges: isSafe ? "Renounced" : "Active (Risk)",
+                auditStatus: isSafe ? "Passed" : "Unverified",
+                lpLockPercent: isSafe ? 98 : Math.floor(Math.random() * 40)
+            };
+        };
+
+        // 🚨 HARD FILTER
+        const passHardFilters = (t) => {
+            if (t.liquidityUsd < 10_000) return false;
+            if (t.priceChangeM5 < -15) return false;
+            return true;
+        };
+
+        // 📊 TRADING SIGNAL
+        const generateTradingSignal = (token, pumpScore, momentum, riskReward) => {
+            const { score, safetyReport } = pumpScore;
+            const { rsi, trendStrength, volumeSpike } = momentum;
+            let signal = 'HOLD';
+            let confidence = 50;
+            let reasoning = [];
+            
+            if (safetyReport.isHoneypot) {
+                return { signal: 'AVOID', confidence: 100, entryTiming: 'NEVER', reasoning: ['Honeypot detected'], riskLevel: 'EXTREME' };
+            }
+
+            if (score >= 85) {
+                if (trendStrength > 70 && rsi < 80) {
+                    signal = 'STRONG_BUY';
+                    confidence = 90;
+                    reasoning.push('Elite Pump Score');
+                } else if (rsi > 85) {
+                    signal = 'WAIT';
+                    confidence = 60;
+                } else {
+                    signal = 'BUY';
+                    confidence = 75;
+                }
+            } else if (score >= 65) {
+                if (volumeSpike > 60) {
+                    signal = 'BUY';
+                    confidence = 70;
+                } else {
+                    signal = 'HOLD';
+                }
+            } else if (score < 40) {
+                signal = 'SELL';
+                confidence = 80;
+            }
+
+            const riskLevel = score > 80 ? 'LOW' : score > 50 ? 'MEDIUM' : 'HIGH';
+            return {
+                signal,
+                confidence,
+                entryTiming: rsi < 40 ? 'PERFECT' : rsi < 60 ? 'GOOD' : 'WAIT',
+                reasoning,
+                riskLevel
+            };
+        };
+
+        // 💰 KELLY RISK CALCULATOR
+        const calculateRiskReward = (token, pumpScoreVal) => {
+            const currentPrice = token.priceUsd;
+            const atrFactor = Math.max(Math.abs(token.priceChangeM5), 1.5);
+            const stopLossPercent = atrFactor * 0.5;
+            const stopLossPrice = currentPrice * (1 - stopLossPercent / 100);
+            
+            const target1Percent = stopLossPercent * 2;
+            const target2Percent = stopLossPercent * 4;
+            const target3Percent = stopLossPercent * 8;
+            
+            const target1Price = currentPrice * (1 + target1Percent / 100);
+            const target2Price = currentPrice * (1 + target2Percent / 100);
+            const target3Price = currentPrice * (1 + target3Percent / 100);
+            
+            const rrRatio = (target2Percent / stopLossPercent).toFixed(1);
+            
+            const winRate = clamp(pumpScoreVal / 100, 0.3, 0.7);
+            const b = parseFloat(rrRatio);
+            const kellyPct = ((b * winRate - (1 - winRate)) / b) * 0.5;
+            
+            let positionSize = 'NO TRADE';
+            if (kellyPct > 0.10) positionSize = 'Aggressive (10%)';
+            else if (kellyPct > 0.05) positionSize = 'Moderate (5%)';
+            else if (kellyPct > 0.01) positionSize = 'Conservative (1-2%)';
+            
+            return {
+                stopLoss: { price: stopLossPrice, percent: stopLossPercent.toFixed(2) },
+                targets: [
+                    { level: 1, price: target1Price, percent: target1Percent.toFixed(2), label: 'Scalp' },
+                    { level: 2, price: target2Price, percent: target2Percent.toFixed(2), label: 'Swing' },
+                    { level: 3, price: target3Price, percent: target3Percent.toFixed(2), label: 'Moon' }
+                ],
+                riskRewardRatio: rrRatio,
+                recommendedPositionSize: positionSize
+            };
+        };
+
+        // 🚀 MAIN CALCULATOR
+        const calculatePumpScore = (token, whales = []) => {
+            if (!passHardFilters(token)) {
+                 return {
+                    score: 0,
+                    momentum: { rsi: 50 },
+                    safetyReport: { isHoneypot: true },
+                    tradingSignal: { signal: 'AVOID', riskLevel: 'HIGH' },
+                    riskReward: null
+                };
+            }
+
+            const s_liq = liquidityScore(token);
+            const s_vol = volumeScore(token);
+            const s_mom = momentumScore(token);
+            const s_vola = volatilityScore(token);
+            const s_mc = marketCapScore(token);
+            const s_wh = whaleScore(token, whales);
+            const s_lh = liquidityHealthScore(token);
+            const s_manip = manipulationScore(token);
+            const safety = safetyScore();
+
+            const finalScore = clamp(
+                s_liq * 0.10 + s_vol * 0.15 + s_mom * 0.15 + s_vola * 0.05 +
+                s_mc * 0.10 + s_wh * 0.20 + s_lh * 0.10 + s_manip * 0.05 + safety.score * 0.10
+            );
+
+            const momentum = {
+                rsi: Math.round(clamp(50 + token.priceChangeM5 * 2, 0, 100)),
+                trendStrength: Math.round(s_mom),
+                volumeSpike: Math.round(s_vol),
+                accumulation: Math.round(s_wh),
+                isOversold: (50 + token.priceChangeM5 * 2) < 30,
+                isOverbought: (50 + token.priceChangeM5 * 2) > 70,
+                hasVolumeSpike: s_vol > 70
+            };
+
+            const riskReward = calculateRiskReward(token, finalScore);
+            const tradingSignal = generateTradingSignal(token, { score: finalScore, safetyReport: safety }, momentum, riskReward);
+
+            return {
+                score: Math.round(finalScore),
+                marketScore: Math.round((s_mom + s_vol + s_mc) / 3),
+                whaleScore: Math.round(s_wh),
+                safetyReport: safety,
+                momentum,
+                tradingSignal,
+                riskReward
+            };
+        };
+
+        // --- GRAPH PREDICTION GENERATOR ---
+        const generateMockChartData = (currentPrice, score) => {
+             const data = [];
+             const now = new Date();
+             let price = currentPrice * 0.95; // Start slightly lower
+             
+             // Past data
+             for (let i = 0; i < 20; i++) {
+                 data.push({
+                     time: new Date(now.getTime() - (20 - i) * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                     price: price,
+                     ma: price * (1 + (Math.random() * 0.02 - 0.01)),
+                     prediction: null
+                 });
+                 price = price * (1 + (Math.random() * 0.01 - 0.005) + (score > 60 ? 0.001 : -0.001));
+             }
+             
+             // Future prediction
+             let predPrice = price; // Start prediction from last known price
+             data[data.length - 1].prediction = price; // Connect lines
+             
+             for (let i = 0; i < 10; i++) {
+                 // Prediction Logic: Higher score = steeper slope
+                 const slope = (score - 50) / 5000; 
+                 predPrice = predPrice * (1 + slope + (Math.random() * 0.005 - 0.0025));
+                 
+                 data.push({
+                     time: new Date(now.getTime() + (i + 1) * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                     price: null,
+                     ma: null,
+                     prediction: predPrice
+                 });
+             }
+             return data;
+        };
+
+        // --- COMPONENTS ---
 
         const DataPoint = ({ icon: Icon, title, value, valueColor = "text-white" }) => (
             <div className="data-point-minimal p-5 relative group">
-                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="flex items-center text-gray-500 text-xs uppercase mb-3 tracking-wider">
                     <Icon className="w-3.5 h-3.5 mr-2 text-cyan-500" />
                     {title}
                 </div>
-                <div className={`font-mono text-2xl font-semibold ${valueColor}`}>{value}</div>
+                <div className={`font-mono text-xl font-semibold ${valueColor}`}>{value}</div>
             </div>
         );
 
         const WhaleWatch = ({ whales }) => (
             <div className="dark-card p-8 h-[70vh] flex flex-col relative">
-                <div className="geo-bg -top-20 -left-20 opacity-20"></div>
                 <div className="flex items-center justify-between mb-8">
                     <div>
                         <h2 className="text-2xl font-bold text-white mb-2">Whale Stream</h2>
@@ -820,38 +612,22 @@ const calculatePumpScore = (token, whales = []) => {
                 </div>
                 <div className="overflow-y-auto custom-scrollbar flex-grow space-y-2">
                     {whales.map((w, i) => (
-                        <div 
-                            key={i} 
-                            className={`dark-card p-4 accent-line cursor-pointer ${
-                                w.type==='BUY' ? 'border-l-2 border-cyan-500' : 'border-l-2 border-red-500'
-                            }`}
-                        >
-                            <div className="flex justify-between items-start mb-2">
-                                <div className="flex items-center gap-3">
-                                    <span className={`text-xs font-semibold uppercase tracking-wider px-2 py-1 border ${
-                                        w.type==='BUY' ? 'border-cyan-500 text-cyan-500' : 'border-red-500 text-red-500'
-                                    }`}>
-                                        {w.type}
-                                    </span>
-                                    <div>
-                                        <div className="font-semibold text-white">{formatCurrency(w.amount, 0)} {w.token}</div>
-                                        <div className="text-xs text-gray-600 mt-0.5">{w.entityLabel}</div>
-                            </div>
-                            </div>
-                                <div className="text-right">
-                                    <div className="font-mono font-semibold text-cyan-500">{formatCurrency(w.valueUsd, 0)}</div>
-                                    <div className="text-xs text-gray-600 mt-0.5">{new Date(w.timestamp).toLocaleTimeString()}</div>
+                        <div key={i} className={`p-4 border-b border-gray-900 flex justify-between items-center hover:bg-zinc-900 transition-colors`}>
+                            <div className="flex items-center gap-3">
+                                <span className={`text-xs font-semibold uppercase tracking-wider px-2 py-1 border ${w.type==='BUY' ? 'border-cyan-500 text-cyan-500' : 'border-red-500 text-red-500'}`}>
+                                    {w.type}
+                                </span>
+                                <div>
+                                    <div className="font-semibold text-white">{formatCurrency(w.amount, 0)} {w.token}</div>
+                                    <div className="text-xs text-gray-600 mt-0.5">{w.entityLabel}</div>
                                 </div>
                             </div>
-                            <div className="text-xs text-gray-600 font-mono">{w.walletAddress.slice(0, 8)}...{w.walletAddress.slice(-6)}</div>
+                            <div className="text-right">
+                                <div className="font-mono font-semibold text-cyan-500">{formatCurrency(w.valueUsd, 0)}</div>
+                                <div className="text-xs text-gray-600 mt-0.5">{new Date(w.timestamp).toLocaleTimeString()}</div>
+                            </div>
                         </div>
                     ))}
-                </div>
-                <div className="mt-6 pt-4 border-t border-gray-900 text-center">
-                    <div className="inline-flex items-center text-xs text-gray-600">
-                        <Terminal className="w-3 h-3 mr-2 text-cyan-500" />
-                        Real-time data from mocked Arkham API
-                    </div>
                 </div>
             </div>
         );
@@ -866,37 +642,16 @@ const calculatePumpScore = (token, whales = []) => {
             );
         };
 
-        const TradingSignalBadge = ({ signal, confidence }) => {
-            const signalConfig = {
-                'STRONG_BUY': { class: 'buy', icon: ArrowUpCircle, label: 'STRONG BUY' },
-                'BUY': { class: 'buy', icon: TrendingUp, label: 'BUY' },
-                'HOLD': { class: 'hold', icon: Activity, label: 'HOLD' },
-                'SELL': { class: 'sell', icon: TrendingDown, label: 'SELL' },
-                'AVOID': { class: 'sell', icon: AlertTriangle, label: 'AVOID' }
-            };
-            const config = signalConfig[signal] || signalConfig['HOLD'];
-            const Icon = config.icon;
-            return (
-                <div className={`signal-badge ${config.class} inline-flex items-center`}>
-                    <Icon className="w-3.5 h-3.5 mr-2" />
-                    <span>{config.label}</span>
-                    <span className="ml-2 text-xs opacity-60">({confidence}%)</span>
-                </div>
-            );
-        };
-
         const App = () => {
             const [tokens, setTokens] = useState([]);
             const [whales, setWhales] = useState([]);
             const [selectedTokenAddr, setSelectedTokenAddr] = useState(null);
             const [view, setView] = useState('dashboard');
-            const [gossip, setGossip] = useState("Loading Gossip...");
+            const [gossip, setGossip] = useState("Initializing...");
 
             const refreshData = async () => {
-                setGossip("Analyzing market data (Simulation Mode)...");
-                // Use Mock Data for guaranteed standalone functionality
+                setGossip("Scanning market...");
                 const realTokens = await mockDexscreenerAPI(); 
-                
                 const rawWhales = mockArkhamAPI(); 
                 
                 const scored = realTokens.map(t => ({ 
@@ -906,7 +661,7 @@ const calculatePumpScore = (token, whales = []) => {
                 
                 setTokens(scored);
                 setWhales(rawWhales);
-                setGossip("Market snapshot updated. Tracking institutional flows...");
+                setGossip("Market snapshot updated.");
             };
 
             useEffect(() => {
@@ -915,73 +670,41 @@ const calculatePumpScore = (token, whales = []) => {
                 return () => clearInterval(i);
             }, []);
 
-            // FIX: Prevent body scrolling when modal is open
             useEffect(() => {
-                if (selectedTokenAddr) {
-                    document.body.classList.add('modal-open');
-                } else {
-                    document.body.classList.remove('modal-open');
-                }
-                return () => {
-                    document.body.classList.remove('modal-open');
-                };
+                if (selectedTokenAddr) document.body.classList.add('modal-open');
+                else document.body.classList.remove('modal-open');
             }, [selectedTokenAddr]);
-            // END FIX
 
             const selectedToken = tokens.find(t => t.address === selectedTokenAddr);
             const chartData = useMemo(() => selectedToken ? generateMockChartData(selectedToken.priceUsd, selectedToken.pumpScore.score) : [], [selectedToken?.priceUsd, selectedToken?.pumpScore.score]);
 
-            // Determine reference line position for chart (positive/negative 24h change)
-            // Safety check: prevent division by zero if priceChangeD1 is exactly -100
-            const referenceValue = selectedToken && selectedToken.priceChangeD1 !== -100 
-                ? selectedToken.priceUsd / (1 + selectedToken.priceChangeD1 / 100) 
-                : selectedToken?.priceUsd || 0;
-            const referenceColor = selectedToken?.priceChangeD1 >= 0 ? '#10b981' : '#ef4444'; // Emerald or Red
-
             return (
                 <div className="min-h-screen p-6 sm:p-12">
-                    {/* Header - Ultra Minimal */}
-                    <header className="mb-12 pb-6 border-b border-gray-900">
+                     <header className="mb-12 pb-6 border-b border-gray-900">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
-                            <div className="flex items-center gap-4 w-full justify-center sm:justify-start">
-                                {/* LOGO - Blended Naturally */}
-                                <div className="relative group mix-blend-screen">
-                                    <div className="absolute -inset-4 bg-cyan-500/20 rounded-full blur-xl opacity-50 group-hover:opacity-100 transition duration-1000"></div>
-                                    <img 
-                                        src="data:image/png;base64,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" 
-                                        alt="Alekrypt Logo" 
-                                        className="relative h-24 sm:h-28 object-contain opacity-90 hover:opacity-100 transition duration-500 drop-shadow-[0_0_15px_rgba(0,243,255,0.5)]"
-                                    />
+                            <div className="flex items-center gap-4">
+                                <div className="relative">
+                                    <div className="w-12 h-12 border border-cyan-500 flex items-center justify-center">
+                                        <span className="text-cyan-500 font-bold text-lg">AK</span>
+                                    </div>
+                                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-cyan-500"></div>
+                                </div>
+                                <div>
+                                    <h1 className="neon-title text-3xl sm:text-4xl font-bold text-white mb-1">AleKrypt</h1>
+                                    <p className="text-xs text-gray-600 uppercase tracking-widest">Crypto Intelligence</p>
                                 </div>
                             </div>
                             <nav className="flex gap-2">
-                                <button 
-                                    onClick={() => setView('dashboard')} 
-                                    className={`minimal-btn px-6 py-2.5 text-sm font-medium uppercase tracking-wider ${
-                                        view === 'dashboard' ? 'active' : ''
-                                    }`}
-                                >
-                                    Dashboard
-                                </button>
-                                <button 
-                                    onClick={() => setView('whale')} 
-                                    className={`minimal-btn px-6 py-2.5 text-sm font-medium uppercase tracking-wider ${
-                                        view === 'whale' ? 'active' : ''
-                                    }`}
-                                >
-                                    Whale Stream
-                                </button>
-                        </nav>
+                                <button onClick={() => setView('dashboard')} className={`minimal-btn px-6 py-2.5 text-sm font-medium uppercase tracking-wider ${view === 'dashboard' ? 'active' : ''}`}>Dashboard</button>
+                                <button onClick={() => setView('whale')} className={`minimal-btn px-6 py-2.5 text-sm font-medium uppercase tracking-wider ${view === 'whale' ? 'active' : ''}`}>Whale Stream</button>
+                            </nav>
                         </div>
                     </header>
 
-                    {/* Content */}
                     <main className="max-w-full mx-auto">
                         {view === 'dashboard' ? (
                             <div className="grid grid-cols-1 gap-6">
-                                {/* Market Feed - Minimal Design */}
-                                <div className="dark-card p-8 relative">
-                                    <div className="geo-bg -top-20 -right-20 opacity-20"></div>
+                                <div className="dark-card p-8">
                                     <div className="flex items-center justify-between mb-8">
                                         <div>
                                             <h2 className="text-2xl font-bold text-white mb-2">Market Feed</h2>
@@ -997,287 +720,85 @@ const calculatePumpScore = (token, whales = []) => {
                                                     <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">Token</th>
                                                     <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">Price</th>
                                                     <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">24h</th>
-                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">1h</th>
                                                     <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">Score</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {tokens.map((t, index) => (
-                                                    <tr 
-                                                        key={t.address} 
-                                                        onClick={() => setSelectedTokenAddr(t.address)} 
-                                                        className={`table-row-minimal cursor-pointer accent-line ${
-                                                            index < 5 ? 'border-l-2 border-cyan-500' : ''
-                                                        }`}
-                                                    >
+                                                    <tr key={t.address} onClick={() => setSelectedTokenAddr(t.address)} className="table-row-minimal cursor-pointer">
                                                         <td className="p-4 number-badge">{index + 1}</td>
                                                         <td className="p-4">
                                                             <div className="font-semibold text-white">{t.symbol}</div>
                                                             <div className="text-xs text-gray-600 mt-0.5">{t.name}</div>
                                                         </td>
                                                         <td className="p-4 font-mono text-sm text-gray-400">{formatCurrency(t.priceUsd, 6)}</td>
-                                                        <td className={`p-4 font-mono text-sm font-semibold ${t.priceChangeD1 >= 0 ? 'text-cyan-500' : 'text-red-500'}`}>
-                                                            {t.priceChangeD1 >= 0 ? '+' : ''}{t.priceChangeD1.toFixed(2)}%
-                                                        </td>
-                                                        <td className={`p-4 font-mono text-sm font-semibold ${t.priceChangeH1 >= 0 ? 'text-cyan-500' : 'text-red-500'}`}>
-                                                            {t.priceChangeH1 >= 0 ? '+' : ''}{t.priceChangeH1.toFixed(2)}%
-                                                        </td>
-                                                        <td className="p-4">
-                                                            <PumpScoreBadge score={t.pumpScore.score} />
-                                                        </td>
+                                                        <td className={`p-4 font-mono text-sm font-semibold ${t.priceChangeD1 >= 0 ? 'text-cyan-500' : 'text-red-500'}`}>{t.priceChangeD1 >= 0 ? '+' : ''}{t.priceChangeD1.toFixed(2)}%</td>
+                                                        <td className="p-4"><PumpScoreBadge score={t.pumpScore.score} /></td>
                                                     </tr>
                                                 ))}
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <div className="p-10 text-center text-zinc-500 font-bold text-lg">Switch to Whale Stream for Transaction Monitoring</div>
                             </div>
                         ) : (
                             <WhaleWatch whales={whales} />
                         )}
                     </main>
 
-                    {/* Deep Dive Modal - Minimal Design */}
                     {selectedToken && (
                         <div className="fixed inset-0 z-50 bg-black/90 flex items-start justify-center p-6 overflow-y-auto">
-                            <div className="dark-card w-full max-w-6xl p-10 mt-8 mb-8 custom-scrollbar relative">
-                                <div className="geo-bg -top-40 -right-40 opacity-10"></div>
-                                {/* Back Button */}
-                                <button 
-                                    onClick={() => setSelectedTokenAddr(null)} 
-                                    className="minimal-btn mb-8 px-4 py-2 text-sm font-medium uppercase tracking-wider flex items-center"
-                                >
-                                    <ArrowLeft className="w-4 h-4 mr-2" />
-                                    Back
+                            <div className="dark-card w-full max-w-6xl p-10 mt-8 mb-8 custom-scrollbar relative bg-black">
+                                <button onClick={() => setSelectedTokenAddr(null)} className="minimal-btn mb-8 px-4 py-2 text-sm font-medium uppercase tracking-wider flex items-center">
+                                    <ArrowLeft className="w-4 h-4 mr-2" /> Back
                                 </button>
-                                
                                 <div className="mb-10">
                                     <h2 className="neon-title text-5xl font-bold text-white mb-4">{selectedToken.symbol}</h2>
                                     <div className="flex flex-wrap items-center gap-6 mb-6">
-                                        <div>
-                                            <p className="text-xs text-gray-600 uppercase tracking-wider mb-1">Current Price</p>
-                                            <p className="text-2xl font-mono font-semibold text-cyan-500">{formatCurrency(selectedToken.priceUsd, 6)}</p>
-                                        </div>
+                                        <p className="text-2xl font-mono font-semibold text-cyan-500">{formatCurrency(selectedToken.priceUsd, 6)}</p>
                                         <PumpScoreBadge score={selectedToken.pumpScore.score} />
-                                        {selectedToken.pumpScore.tradingSignal && (
-                                            <TradingSignalBadge 
-                                                signal={selectedToken.pumpScore.tradingSignal.signal} 
-                                                confidence={selectedToken.pumpScore.tradingSignal.confidence} 
-                                            />
-                                        )}
                                     </div>
-                                    <div className="divider"></div>
                                 </div>
-                                
-                                {/* Trading Signal & Entry Timing */}
+
                                 {selectedToken.pumpScore.tradingSignal && (
-                                    <div className="dark-card p-8 mb-8 relative">
-                                        <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
-                                        <div className="pl-6">
-                                            <div className="flex items-start justify-between mb-6">
-                                                <div>
-                                                    <h3 className="text-xl font-bold text-white mb-2 flex items-center">
-                                                        <Target className="w-5 h-5 mr-2 text-cyan-500" />
-                                                        Trading Signal
-                                                    </h3>
-                                                    <p className="text-sm text-gray-600">Entry Timing: <span className={`font-semibold ${selectedToken.pumpScore.tradingSignal.entryTiming === 'EXCELLENT' ? 'text-cyan-500' : selectedToken.pumpScore.tradingSignal.entryTiming === 'GOOD' ? 'text-purple-500' : 'text-gray-500'}`}>{selectedToken.pumpScore.tradingSignal.entryTiming}</span></p>
-                                                </div>
-                                                <div className="text-right">
-                                                    <p className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Risk</p>
-                                                    <p className={`text-lg font-bold ${selectedToken.pumpScore.tradingSignal.riskLevel === 'LOW' ? 'text-cyan-500' : selectedToken.pumpScore.tradingSignal.riskLevel === 'MEDIUM' ? 'text-purple-500' : 'text-red-500'}`}>
-                                                        {selectedToken.pumpScore.tradingSignal.riskLevel}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div className="space-y-2">
-                                                {selectedToken.pumpScore.tradingSignal.reasoning.map((reason, idx) => (
-                                                    <p key={idx} className="text-sm text-gray-400 flex items-start">
-                                                        <span className="text-cyan-500 mr-3 mt-1">—</span>
-                                                        {reason}
-                                                    </p>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
+                                     <div className="dark-card p-6 mb-8 border border-gray-800">
+                                        <h3 className="text-lg font-bold text-white mb-2">Trading Signal: <span className="text-cyan-500">{selectedToken.pumpScore.tradingSignal.signal}</span></h3>
+                                        <p className="text-gray-400 text-sm">{selectedToken.pumpScore.tradingSignal.reasoning.join(", ")}</p>
+                                     </div>
                                 )}
 
-                                {/* Risk/Reward Analysis */}
-                                {selectedToken.pumpScore.riskReward && (
-                                    <div className="dark-card p-8 mb-8">
-                                        <h3 className="text-xl font-bold text-white mb-6 flex items-center">
-                                            <Target className="w-5 h-5 mr-2 text-cyan-500" />
-                                            Risk/Reward Analysis
-                                        </h3>
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                            <div className="data-point-minimal">
-                                                <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Stop Loss</p>
-                                                <p className="text-red-500 font-mono font-semibold text-xl mb-1">{formatCurrency(selectedToken.pumpScore.riskReward.stopLoss.price, 6)}</p>
-                                                <p className="text-xs text-gray-600">({selectedToken.pumpScore.riskReward.stopLoss.percent}% below entry)</p>
-                                            </div>
-                                            <div className="data-point-minimal">
-                                                <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Risk/Reward</p>
-                                                <p className="text-cyan-500 font-mono font-semibold text-2xl mb-1">{selectedToken.pumpScore.riskReward.riskRewardRatio}x</p>
-                                                <p className="text-xs text-gray-600">Position: {selectedToken.pumpScore.riskReward.recommendedPositionSize}</p>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <p className="text-xs text-gray-600 uppercase tracking-wider mb-4">Take Profit Targets</p>
-                                            <div className="grid grid-cols-3 gap-4">
-                                                {selectedToken.pumpScore.riskReward.targets.map((target) => (
-                                                    <div key={target.level} className="data-point-minimal text-center">
-                                                        <p className="text-xs text-gray-600 mb-2 uppercase tracking-wider">{target.label}</p>
-                                                        <p className="text-cyan-500 font-mono font-semibold text-lg mb-1">{formatCurrency(target.price, 6)}</p>
-                                                        <p className="text-xs text-gray-600">+{target.percent}%</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Momentum Indicators */}
-                                {selectedToken.pumpScore.momentum && (
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                                        <DataPoint 
-                                            icon={Activity} 
-                                            title="RSI" 
-                                            value={selectedToken.pumpScore.momentum.rsi}
-                                            valueColor={selectedToken.pumpScore.momentum.isOversold ? 'text-emerald-400' : selectedToken.pumpScore.momentum.isOverbought ? 'text-red-400' : 'text-white'}
-                                        />
-                                        <DataPoint 
-                                            icon={TrendingUp} 
-                                            title="Trend Strength" 
-                                            value={selectedToken.pumpScore.momentum.trendStrength}
-                                            valueColor={selectedToken.pumpScore.momentum.trendStrength > 70 ? 'text-emerald-400' : selectedToken.pumpScore.momentum.trendStrength > 40 ? 'text-yellow-400' : 'text-red-400'}
-                                        />
-                                        <DataPoint 
-                                            icon={Zap} 
-                                            title="Volume Spike" 
-                                            value={selectedToken.pumpScore.momentum.volumeSpike}
-                                            valueColor={selectedToken.pumpScore.momentum.hasVolumeSpike ? 'text-emerald-400' : 'text-zinc-400'}
-                                        />
-                                        <DataPoint 
-                                            icon={Target} 
-                                            title="Accumulation" 
-                                            value={selectedToken.pumpScore.momentum.accumulation}
-                                            valueColor={selectedToken.pumpScore.momentum.accumulation > 70 ? 'text-emerald-400' : 'text-zinc-400'}
-                                        />
-                                    </div>
-                                )}
-                                
-                                {/* Key Metrics Grid */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                                     <DataPoint icon={Gauge} title="Market Cap" value={formatCurrency(selectedToken.marketCapUsd/1000000) + 'M'} />
-                                    <DataPoint icon={DollarSign} title="Liquidity" value={formatCurrency(selectedToken.liquidityUsd/1000000) + 'M'} />
                                     <DataPoint icon={Clock} title="24h Volume" value={formatCurrency(selectedToken.volume24h/1000000) + 'M'} />
-                                    <DataPoint 
-                                        icon={TrendingUp} 
-                                        title="24h Change" 
-                                        value={selectedToken.priceChangeD1.toFixed(2) + '%'} 
-                                        valueColor={selectedToken.priceChangeD1 >= 0 ? 'text-emerald-400' : 'text-red-400'}
-                                    />
-                                    <DataPoint 
-                                        icon={Shield} 
-                                        title="Risk Level" 
-                                        value={selectedToken.pumpScore.tradingSignal.riskLevel} 
-                                        valueColor={selectedToken.pumpScore.tradingSignal.riskLevel === 'LOW' ? 'text-emerald-400' : 'text-red-400'}
-                                    />
+                                    <DataPoint icon={TrendingUp} title="24h Change" value={selectedToken.priceChangeD1.toFixed(2) + '%'} valueColor={selectedToken.priceChangeD1 >= 0 ? 'text-emerald-400' : 'text-red-400'} />
                                 </div>
 
-                                {/* Chart */}
                                 <div className="h-64 dark-card p-6 mb-8">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                                             <defs>
                                                 <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4}/><stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/></linearGradient>
-                                                <linearGradient id="colorMA" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f97316" stopOpacity={0.2}/><stop offset="95%" stopColor="#f97316" stopOpacity={0.0}/></linearGradient>
                                             </defs>
                                             <CartesianGrid stroke="#333" vertical={false} strokeDasharray="3 3" />
-                                            <XAxis dataKey="time" hide />
                                             <YAxis domain={['auto', 'auto']} tickFormatter={v => formatCurrency(v, 4)} stroke="#999" />
-                                            <Tooltip formatter={(value) => [formatCurrency(value, 6), 'Price']} labelFormatter={() => 'Time'} contentStyle={{ backgroundColor: '#18181b', border: '1px solid #3f3f46', color: '#fff' }}/>
-                                            {/* Price (Main Line) */}
-                                            <Area type="monotone" dataKey="price" stroke="#06b6d4" fill="url(#colorPrice)" strokeWidth={2} name="Price" dot={false} connectNulls />
-                                            <Area type="monotone" dataKey="prediction" stroke="#8b5cf6" fill="url(#colorPrice)" strokeWidth={2} name="AI Prediction" dot={false} strokeDasharray="5 5" connectNulls />
-                                            {/* Mock Moving Average (MA) */}
-                                            <Area type="monotone" dataKey="ma" stroke="#f97316" fill="url(#colorMA)" strokeWidth={1} name="MA" dot={false} strokeDasharray="2 2" />
-                                            {/* 24h Starting Price Reference Line */}
-                                            <ReferenceLine y={referenceValue} stroke={referenceColor} strokeDasharray="3 3" label={{ value: '24h Open', fill: referenceColor, fontSize: 12, position: 'right' }} />
+                                            <Area type="monotone" dataKey="price" stroke="#06b6d4" fill="url(#colorPrice)" strokeWidth={2} />
+                                            <Area type="monotone" dataKey="prediction" stroke="#8b5cf6" fill="url(#colorPrice)" strokeWidth={2} strokeDasharray="5 5" />
                                         </AreaChart>
                                     </ResponsiveContainer>
                                 </div>
-
-                                {/* Bot Analysis and Safety */}
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                                    <div className="dark-card p-6 md:col-span-2">
-                                        <h3 className="text-white font-bold text-sm mb-4 flex items-center uppercase tracking-wider">
-                                            <Sparkles className="w-4 h-4 mr-2 text-cyan-500"/> 
-                                            Bot Analysis
-                                        </h3>
-                                        <p className="text-sm text-gray-400 leading-relaxed">"Analysis: Whale activity spiking, suggesting imminent pump. Liquidity is high, which lowers immediate slippage risk. Contract parameters look standard, but owner privilege exists. Recommendation: High risk, high reward profile. Monitor whale wallets closely before entry."</p>
-                                    </div>
-                                    <div className="dark-card p-6">
-                                        <h3 className="text-white font-bold text-sm mb-4 flex items-center uppercase tracking-wider">
-                                            <Shield className="w-4 h-4 mr-2 text-cyan-500"/> 
-                                            Safety
-                                        </h3>
-                                        <div className="space-y-3 text-sm">
-                                            <div>
-                                                <p className="text-gray-600 text-xs mb-1">Audit Status</p>
-                                                <p className="text-cyan-500 font-semibold">{selectedToken.pumpScore.safetyReport.auditStatus}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-gray-600 text-xs mb-1">LP Locked</p>
-                                                <p className="text-cyan-500 font-semibold">{selectedToken.pumpScore.safetyReport.lpLockPercent}%</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-gray-600 text-xs mb-1">Honeypot</p>
-                                                <p className={`font-semibold ${selectedToken.pumpScore.safetyReport.isHoneypot ? 'text-red-500' : 'text-cyan-500'}`}>
-                                                    {selectedToken.pumpScore.safetyReport.isHoneypot ? 'FAIL' : 'PASS'}
-                                        </p>
-                                    </div>
-                                </div>
-                                    </div>
-                                </div>
-                                <div className="divider"></div>
-                                <button 
-                                    onClick={() => setSelectedTokenAddr(null)} 
-                                    className="minimal-btn w-full px-6 py-3 text-sm font-medium uppercase tracking-wider flex items-center justify-center"
-                                >
-                                    <ArrowLeft className="w-4 h-4 mr-2" />
-                                    Back to Dashboard
-                                </button>
                             </div>
                         </div>
                     )}
 
-                    {/* Footer - Minimal */}
-                    <footer className="mt-20 pt-12 border-t border-gray-900">
-                        <div className="mb-8 text-center">
-                            <div className="inline-flex items-center text-xs text-gray-600 mb-2">
-                                <div className="pulse-dot mr-2"></div>
-                                <span>AI Gossip: "{gossip}"</span>
-                            </div>
+                    <footer className="mt-20 pt-12 border-t border-gray-900 text-center">
+                        <div className="inline-flex items-center text-xs text-gray-600 mb-8">
+                             <span>AI Gossip: "{gossip}"</span>
                         </div>
-                        <div className="flex flex-col items-center">
-                            <div className="flex space-x-8 text-gray-600 text-sm mb-8">
-                                <span className="flex items-center underline-animate">
-                                    <Mail className="w-3.5 h-3.5 mr-2" /> hirensadhanala@gmail.com
-                                </span>
-                                <span className="flex items-center underline-animate">
-                                    <Phone className="w-3.5 h-3.5 mr-2" /> +91 70937 38685
-                                </span>
-                            </div>
-                            <div className="dark-card p-6 flex flex-col items-center">
-                                <p className="text-gray-600 text-xs uppercase tracking-widest mb-2">Architected By</p>
-                                <h3 className="text-2xl font-bold text-white mb-2">HIREN</h3>
-                                <div className="h-px w-16 bg-cyan-500 mb-2"></div>
-                                <p className="text-cyan-500 text-xs font-semibold uppercase tracking-wider">Founder & CEO</p>
-                            </div>
+                        <div className="dark-card p-6 inline-block mx-auto">
+                            <p className="text-gray-600 text-xs uppercase tracking-widest mb-2">Architected By</p>
+                            <h3 className="text-2xl font-bold text-white">HIREN</h3>
                         </div>
-                </footer>
-                    <div className="scanline"></div>
+                    </footer>
                 </div>
             );
         };
