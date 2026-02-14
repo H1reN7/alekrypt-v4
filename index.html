@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H1reN's AleKrypt | Crypto Intelligence</title>
+    
+    <!-- 1. Tailwind CSS for Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Font for the futuristic/neon look -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: #0a0a0a;
+            color: #e5e5e5;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Ultra minimal dark background with subtle texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 0% 0%, rgba(6, 182, 212, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.03) 0%, transparent 50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        /* Subtle scanline effect */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(6, 182, 212, 0.02) 2px,
+                rgba(6, 182, 212, 0.02) 4px
+            );
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        
+        .neon-title { 
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #ffffff;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { 
+            background: #06b6d4;
+            border-radius: 2px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0a0a0a; }
+        
+        .recharts-wrapper { width: 100% !important; height: 100% !important; }
+        .modal-open { overflow: hidden; } 
+        
+        /* Dark minimal card */
+        .dark-card {
+            background: #111111;
+            border: 1px solid #1a1a1a;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .dark-card:hover {
+            border-color: #06b6d4;
+            background: #151515;
+        }
+        
+        /* Accent line effect */
+        .accent-line {
+            position: relative;
+        }
+        
+        .accent-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #06b6d4, #8b5cf6);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .accent-line:hover::before {
+            opacity: 1;
+        }
+        
+        /* Geometric accent */
+        .geo-accent {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(6, 182, 212, 0.1);
+            transform: rotate(45deg);
+            pointer-events: none;
+        }
+        
+        /* Glow on hover */
+        .hover-glow:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2);
+        }
+        
+        /* Minimal button */
+        .minimal-btn {
+            background: transparent;
+            border: 1px solid #1a1a1a;
+            color: #888;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .minimal-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 0;
+            height: 100%;
+            background: #06b6d4;
+            transition: width 0.3s;
+            z-index: -1;
+        }
+        
+        .minimal-btn:hover {
+            border-color: #06b6d4;
+            color: #fff;
+        }
+        
+        .minimal-btn:hover::before {
+            width: 100%;
+        }
+        
+        .minimal-btn.active {
+            background: #06b6d4;
+            border-color: #06b6d4;
+            color: #000;
+        }
+        
+        /* Number badge */
+        .number-badge {
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 600;
+            color: #06b6d4;
+            font-size: 0.75rem;
+        }
+        
+        /* --- NEO-TOKYO THEME --- */
+        :root {
+            --bg-color: #050505;
+            --card-bg: #0a0a0a;
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff0099;
+            --neon-purple: #bc13fe;
+            --text-main: #e0e0e0;
+            --text-muted: #888;
+            --border-color: #333;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', monospace;
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Glitch Effect Utility */
+        .glitch-text {
+            position: relative;
+        }
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+        }
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -1px 0 var(--neon-pink);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -1px 0 var(--neon-cyan);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(38px, 9999px, 81px, 0); }
+            20% { clip: rect(6px, 9999px, 19px, 0); }
+            40% { clip: rect(74px, 9999px, 51px, 0); }
+            60% { clip: rect(18px, 9999px, 96px, 0); }
+            80% { clip: rect(60px, 9999px, 6px, 0); }
+            100% { clip: rect(27px, 9999px, 7px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(56px, 9999px, 14px, 0); }
+            20% { clip: rect(21px, 9999px, 99px, 0); }
+            40% { clip: rect(10px, 9999px, 49px, 0); }
+            60% { clip: rect(98px, 9999px, 4px, 0); }
+            80% { clip: rect(23px, 9999px, 69px, 0); }
+            100% { clip: rect(79px, 9999px, 17px, 0); }
+        }
+
+        /* Cyber Card */
+        .dark-card {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.05); /* Slight cyan glow */
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+        .dark-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            opacity: 0.5;
+        }
+        .dark-card:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+        }
+
+        /* Neon Buttons */
+        .minimal-btn {
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 8px 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .minimal-btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+        .minimal-btn.active {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* Scanning Line Animation overlay on dashboard */
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 243, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+            animation: scan 4s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        .neon-title {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px var(--neon-cyan);
+        }
+
+        .score-badge {
+            font-family: 'Space Grotesk', monospace;
+            font-weight: 700;
+            padding: 0.25rem 0.75rem;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            color: #fff;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+        
+        .score-badge.high {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px var(--neon-cyan);
+            box-shadow: 0 0 5px var(--neon-cyan), inset 0 0 5px var(--neon-cyan);
+        }
+        
+        .score-badge.medium {
+            border-color: var(--neon-purple);
+            color: var(--neon-purple);
+            text-shadow: 0 0 5px var(--neon-purple);
+        }
+        
+        .score-badge.low {
+            border-color: var(--neon-pink);
+            color: var(--neon-pink);
+            text-shadow: 0 0 5px var(--neon-pink);
+        }
+
+        /* Pulse Dot customized */
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-cyan);
+            animation: pulse 1s infinite alternate;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333; 
+            border: 1px solid #000;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-cyan); 
+        }
+    </style>
+
+    <!-- 3. Import Map to load React & Libraries directly from the web -->
+    <script type="importmap">
+    {
+        "imports": {
+            "react": "https://esm.sh/react@18.2.0",
+            "react-dom": "https://esm.sh/react-dom@18.2.0", 
+            "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+            "recharts": "https://esm.sh/recharts@2.12.3?external=react,react-dom",
+            "lucide-react": "https://esm.sh/lucide-react@0.358.0?external=react"
+        }
+    }
+    </script>
+    
+    <!-- 4. Babel to understand JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-black text-white">
+    <div id="root"></div>
+
+    <!-- 5. The Application Code -->
+    <script type="text/babel" data-type="module">
+        import React, { useState, useEffect, useMemo } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
+        import { Zap, TrendingUp, Gauge, Users, Hexagon, Terminal, DollarSign, Clock, Shield, RefreshCw, Mail, Phone, Sparkles, ArrowLeft, Target, AlertTriangle, TrendingDown, ArrowUpCircle, ArrowDownCircle, Activity } from 'lucide-react';
+
+        // --- GLOBAL CONSTANTS ---
+        const UPDATE_INTERVAL_MS = 300000; 
+        const apiKey = ""; // API Key
+
+        // --- GEMINI API UTILITIES ---
+        const callGeminiAPI = async (prompt) => {
+            // Function to call the AI model (kept for future expansion, currently mocked)
+            try {
+                // In a real application, you would implement fetch with exponential backoff here.
+                return "Analysis: Whale activity spiking, suggesting imminent pump. Safety check passed. High risk, high reward profile.";
+            } catch (error) {
+                console.error("Gemini Error:", error);
+                return "AI Connection Interrupted.";
+            }
+        };
+
+        // --- TOKEN CONFIGURATION (REAL CONTRACTS) ---
+        // Note: Using WETH/USDC, SOL/USDC, etc. main pools for accuracy
+        const TRACKED_TOKENS = [
+            { symbol: 'WETH', params: 'ethereum/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2' }, // WETH
+            { symbol: 'SOL', params: 'solana/So11111111111111111111111111111111111111112' },   // WSOL
+            { symbol: 'PEPE', params: 'ethereum/0x6982508145454ce325ddbe47a25d4ec3d2311933' }, // PEPE
+            { symbol: 'WIF', params: 'solana/EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm' },  // WIF
+            { symbol: 'BONK', params: 'solana/DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263' }, // BONK
+            { symbol: 'BRETT', params: 'base/0x532f27101965dd16442e59d40670faf5ebb142e4' },   // BRETT (Base)
+            { symbol: 'ARB', params: 'arbitrum/0x912ce59144191c1204e64559fe8253a0e49e6548' },  // ARB
+            { symbol: 'OP', params: 'optimism/0x4200000000000000000000000000000000000042' },   // OP
+            { symbol: 'AVAX', params: 'avalanche/0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7' },// WAVAX
+            { symbol: 'LINK', params: 'ethereum/0x514910771af9ca656af840dff83e8264ecf986ca' }  // LINK
+        ];
+
+        // --- CHART & DATA GENERATORS ---
+        const formatCurrency = (value, decimals = 2) => {
+             // Handle extremely small numbers (like PEPE)
+            if (value < 0.01) decimals = 8;
+            else if (value < 1) decimals = 4;
+
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals,
+            }).format(value);
+        };
+        
+        // Fetch Real Data from DexScreener
+        const fetchDexScreenerData = async () => {
+            const tokens = [];
+            // DexScreener supports up to 30 addresses per call, we have 10.
+            // But the endpoint format is /tokens/{address},{address}... or pairs.
+            // Since we have chain specific addresses, we should probably query by token address 
+            // BUT simpler way for multi-chain is to query individually or use their specific endpoint correctly.
+            // Let's iterate and fetch to be safe with cross-chain mix.
+            // Improved: Use the tokens endpoint allows {chainId}/{tokenAddress}
+            
+            // Actually, DexScreener API requires: https://api.dexscreener.com/latest/dex/tokens/{tokenAddresses}
+            // But it mixes chains. Let's send requests in parallel for speed.
+            
+            const requests = TRACKED_TOKENS.map(async (t) => {
+                try {
+                    const response = await fetch(`https://api.dexscreener.com/latest/dex/tokens/${t.params.split('/')[1]}`);
+                    const data = await response.json();
+                    
+                    // The API returns "pairs". We need to find the best pair (highest liquidity).
+                    if (data.pairs && data.pairs.length > 0) {
+                        // Sort by liquidity to find the main pair
+                        const bestPair = data.pairs.sort((a, b) => b.liquidity.usd - a.liquidity.usd)[0];
+                        
+                        // normalize data structure
+                        return {
+                             symbol: bestPair.baseToken.symbol, // or t.symbol from our config 
+                             name: bestPair.baseToken.name,
+                             address: bestPair.baseToken.address, // Token address
+                             chainId: bestPair.chainId,
+                             priceUsd: parseFloat(bestPair.priceUsd),
+                             marketCapUsd: bestPair.fdv, // FDV is often used as MC proxy in DeFi
+                             liquidityUsd: bestPair.liquidity.usd,
+                             volume24h: bestPair.volume.h24,
+                             priceChangeM5: bestPair.priceChange.m5,
+                             priceChangeH1: bestPair.priceChange.h1,
+                             priceChangeD1: bestPair.priceChange.h24,
+                             pairAddress: bestPair.pairAddress,
+                             url: bestPair.url
+                        };
+                    }
+                    return null;
+                } catch (e) {
+                    console.error("Error fetching", t.symbol, e);
+                    return null;
+                }
+            });
+            
+            const results = await Promise.all(requests);
+            return results.filter(r => r !== null);
+        };
+
+        const mockArkhamAPI = (tokenSymbol = null) => {
+            const filteredWhales = Array.from({ length: 20 }, (_, i) => ({
+                timestamp: Date.now() - i * 50000,
+                walletAddress: '0xW' + Math.random().toString(16).slice(2, 8),
+                entityLabel: ['Smart Money', 'Whale', 'Fund', 'CEX'][Math.floor(Math.random() * 4)],
+                token: tokenSymbol || TRACKED_TOKENS[Math.floor(Math.random() * TRACKED_TOKENS.length)].symbol,
+                type: Math.random() > 0.5 ? 'BUY' : 'SELL',
+                amount: Math.floor(Math.random() * 1000),
+                valueUsd: Math.floor(Math.random() * 500000)
+            }));
+            return filteredWhales;
+        };
+
+        // --------------------
+// --------------------
+// 3.0 HYPER-PUMP ENGINE (INSTITUTIONAL GRADE)
+// --------------------
+
+// Helper: Sigmoid function for smoother scoring transitions
+const sigmoid = (x, k = 0.1, x0 = 50) => 100 / (1 + Math.exp(-k * (x - x0)));
+const clamp = (val, min = 0, max = 100) => Math.max(min, Math.min(max, val));
+
+// 1️⃣ Liquidity Quality (Enhanced)
+// Penalize too low (scam risk) AND too high (hard to move)
+const liquidityScore = (t) => {
+    if (t.liquidityUsd < 50_000) return 0; // Unsafe
+    if (t.liquidityUsd > 10_000_000) return 60; // Too heavy to pump hard
+    
+    // Optimal range: 200k - 2M
+    if (t.liquidityUsd >= 200_000 && t.liquidityUsd <= 2_000_000) return 100;
+    
+    return clamp((t.liquidityUsd / 2_000_000) * 100);
+};
+
+// 2️⃣ Volume Strength (Exponential)
+const volumeScore = (t) => {
+    const volToLiq = t.volume24h / Math.max(t.liquidityUsd, 1);
+    // Exponential curve: requires significant volume relative to liquidity to score high
+    // Ratio of 0.5 -> score ~20
+    // Ratio of 1.0 -> score ~50
+    // Ratio of 2.0 -> score ~90
+    return clamp(sigmoid(volToLiq * 50, 0.1, 50)); 
+};
+
+// 3️⃣ Price Momentum (Weighted Timeframes)
+const momentumScore = (t) => {
+    // Recent momentum (M5) is most critical for pumps
+    const m5score = t.priceChangeM5 > 0 ? clamp(t.priceChangeM5 * 10) : 0; 
+    const h1score = t.priceChangeH1 > 0 ? clamp(t.priceChangeH1 * 2) : 0;
+    
+    // Check for "Uptrend Structure"
+    const aligned = (t.priceChangeM5 > 0 && t.priceChangeH1 > 0) ? 20 : 0;
+    
+    return clamp((m5score * 0.6) + (h1score * 0.4) + aligned);
+};
+
+// 4️⃣ Volatility Efficiency
+// We want "Good Volatility" (Upwards) not just any volatility
+const volatilityScore = (t) => {
+    if (t.priceChangeM5 < -2) return 10; // Dumping currently
+    const range = Math.abs(t.priceChangeM5);
+    // Sweet spot: 1-5% movement in 5 mins is ideal for active pumps
+    if (range > 1 && range < 5) return 100;
+    if (range >= 5) return 60; // Too chaotic
+    return 40; // Too dead
+};
+
+// 5️⃣ Market Cap Potential
+const marketCapScore = (t) => {
+    // The "Golden Zone" for 100x gems is usually 500k - 5M MC
+    if (t.marketCapUsd < 500_000) return 30; // Micro cap risk
+    if (t.marketCapUsd > 100_000_000) return 20; // Large cap, slow mover
+    
+    if (t.marketCapUsd >= 500_000 && t.marketCapUsd <= 5_000_000) return 100;
+    if (t.marketCapUsd > 5_000_000 && t.marketCapUsd <= 20_000_000) return 70;
+    
+    return 50;
+};
+
+// 6️⃣ Whale Dominance & Smart Money
+const whaleScore = (token, whales = []) => {
+    if (!whales || whales.length === 0) return 50;
+    
+    const tokenWhales = whales.filter(w => w.token === token.symbol);
+    if (tokenWhales.length === 0) return 40;
+    
+    const buys = tokenWhales.filter(w => w.type === 'BUY');
+    const sells = tokenWhales.filter(w => w.type === 'SELL');
+    
+    const buyVol = buys.reduce((sum, w) => sum + w.valueUsd, 0);
+    const sellVol = sells.reduce((sum, w) => sum + w.valueUsd, 0);
+    const netFlow = buyVol - sellVol;
+    
+    // Net Flow Score
+    let flowScore = 50;
+    if (netFlow > 100_000) flowScore = 100;
+    else if (netFlow > 10_000) flowScore = 75;
+    else if (netFlow < -10_000) flowScore = 25;
+    
+    // Smart Wallet Presence (Mocked detection of 'Smart Money' label)
+    const smartMoneyCount = tokenWhales.filter(w => w.entityLabel === 'Smart Money' || w.entityLabel === 'Fund').length;
+    const smartScore = clamp(smartMoneyCount * 25);
+    
+    return clamp(flowScore * 0.7 + smartScore * 0.3);
+};
+
+// 7️⃣ Order Book Depth (Simulated via Liquidity Health)
+const liquidityHealthScore = (t) => {
+    // If liquidity is < 10% of MC, slippery slope (dangerous)
+    // If liquidity is > 50% of MC, rigid price (hard to push)
+    const ratio = t.liquidityUsd / t.marketCapUsd;
+    
+    if (ratio < 0.10) return 30; // Rug risk
+    if (ratio > 0.50) return 40; // Over-liquid
+    
+    // Ideal: 15% - 30%
+    if (ratio >= 0.15 && ratio <= 0.30) return 100;
+    return 70;
+};
+
+// 8️⃣ Manipulation & Wash Trading Check
+const manipulationScore = (t) => {
+    // Warning if Volume > 5x Liquidity (High probability of wash trading)
+    if (t.volume24h > t.liquidityUsd * 5) return 10;
+    // Warning if Volume > 2x Liquidity
+    if (t.volume24h > t.liquidityUsd * 2) return 40;
+    return 95;
+};
+
+// 9️⃣ Safety Core (Mocked)
+const safetyScore = () => {
+    // In real app, this parses contract code
+    const baseRisk = Math.random();
+    const isSafe = baseRisk > 0.1;
+    
+    return {
+        score: isSafe ? 90 : 10,
+        honeypot: !isSafe,
+        ownerPrivileges: isSafe ? "Renounced" : "Active (Risk)",
+        auditStatus: isSafe ? "Passed" : "Unverified",
+        lpLockPercent: isSafe ? 98 : Math.floor(Math.random() * 40)
+    };
+};
+
+// 🚨 HARD FILTER (Gatekeeper)
+const passHardFilters = (t) => {
+    if (t.liquidityUsd < 10_000) return false; // Dust
+    if (t.priceChangeM5 < -15) return false; // Crashing hard
+    return true;
+};
+
+// 📊 ADVANCED TRADING SIGNAL
+const generateTradingSignal = (token, pumpScore, momentum, riskReward) => {
+    const { score, safetyReport } = pumpScore;
+    const { rsi, trendStrength, volumeSpike } = momentum;
+    
+    let signal = 'HOLD';
+    let confidence = 50;
+    let reasoning = [];
+    
+    // 1. Safety First
+    if (safetyReport.isHoneypot) {
+        return { signal: 'AVOID', confidence: 100, entryTiming: 'NEVER', reasoning: ['Honeypot detected', 'Unsafe contract'], riskLevel: 'EXTREME' };
+    }
+
+    // 2. Logic Tree
+    if (score >= 85) {
+        // High Score
+        if (trendStrength > 70 && rsi < 80) {
+            signal = 'STRONG_BUY';
+            confidence = 90;
+            reasoning.push('Elite Pump Score (90+)');
+            reasoning.push('Instituonal Volume Inflow');
+        } else if (rsi > 85) {
+            signal = 'WAIT'; // Too hot
+            confidence = 60;
+            reasoning.push('Score is high but RSI is Overbought');
+        } else {
+            signal = 'BUY';
+            confidence = 75;
+            reasoning.push('Solid fundamentals, good entry');
+        }
+    } else if (score >= 65) {
+        // Mid Score
+        if (volumeSpike > 60 && trendStrength > 50) {
+            signal = 'BUY';
+            confidence = 70;
+            reasoning.push('Momentum building up');
+            reasoning.push('Volume breakout detected');
+        } else {
+            signal = 'HOLD';
+            confidence = 50;
+            reasoning.push('Good metrics, waiting for volume');
+        }
+    } else if (score < 40) {
+        signal = 'SELL';
+        confidence = 80;
+        reasoning.push('Momentum lost');
+        reasoning.push('Bearish flow detected');
+    }
+
+    // Risk Level Definition
+    const riskLevel = score > 80 ? 'LOW' : score > 50 ? 'MEDIUM' : 'HIGH';
+
+    return {
+        signal,
+        confidence,
+        entryTiming: rsi < 40 ? 'PERFECT' : rsi < 60 ? 'GOOD' : 'WAIT FOR DIP',
+        reasoning,
+        riskLevel
+    };
+};
+
+// 💰 KELLY CRITERION RISK CALCULATOR
+const calculateRiskReward = (token, pumpScoreVal) => {
+    const currentPrice = token.priceUsd;
+    
+    // Dynamic ATR-based Stop Loss (Simulated ATR via volatility)
+    const atrFactor = Math.max(Math.abs(token.priceChangeM5), 1.5);
+    const stopLossPercent = atrFactor * 0.5; // Tight stop for scalps
+    const stopLossPrice = currentPrice * (1 - stopLossPercent / 100);
+    
+    // Targets based on Fibonacci extensions of the "pump" (simulated)
+    const target1Percent = stopLossPercent * 2; // 1:2 R:R
+    const target2Percent = stopLossPercent * 4; // 1:4 R:R
+    const target3Percent = stopLossPercent * 8; // Moonbag
+    
+    const target1Price = currentPrice * (1 + target1Percent / 100);
+    const target2Price = currentPrice * (1 + target2Percent / 100);
+    const target3Price = currentPrice * (1 + target3Percent / 100);
+    
+    // Risk Reward Ratio
+    const rrRatio = (target2Percent / stopLossPercent).toFixed(1);
+    
+    // Kelly Criterion for sizing (Simplified)
+    // f* = (bp - q) / b
+    // where b = odds received (rrRatio), p = probability of win (confidence/100), q = prob of loss (1-p)
+    // We dampen it by half for safety (Half Kelly)
+    
+    // We need "confidence" from the future signal generation step, but here we can approximate or pass it in.
+    // Let's assume a Win Rate derived from pump score
+    const winRate = clamp(pumpScoreVal / 100, 0.3, 0.7); // 30% to 70% win rate
+    const b = parseFloat(rrRatio);
+    const kellyPct = ((b * winRate - (1 - winRate)) / b) * 0.5; // Half kelly
+    
+    let positionSize = 'NO TRADE';
+    if (kellyPct > 0.10) positionSize = 'Aggressive (10% Balance)';
+    else if (kellyPct > 0.05) positionSize = 'Moderate (5% Balance)';
+    else if (kellyPct > 0.01) positionSize = 'Conservative (1-2% Balance)';
+    
+    return {
+        stopLoss: { price: stopLossPrice, percent: stopLossPercent.toFixed(2) },
+        targets: [
+            { level: 1, price: target1Price, percent: target1Percent.toFixed(2), label: 'Scalp' },
+            { level: 2, price: target2Price, percent: target2Percent.toFixed(2), label: 'Swing' },
+            { level: 3, price: target3Price, percent: target3Percent.toFixed(2), label: 'Moon' }
+        ],
+        riskRewardRatio: rrRatio,
+        recommendedPositionSize: positionSize
+    };
+};
+
+// 🚀 MAIN CALCULATOR
+const calculatePumpScore = (token, whales = []) => {
+    if (!passHardFilters(token)) {
+         return {
+            score: 0,
+            marketScore: 0,
+            whaleScore: 0,
+            safetyReport: { auditStatus: "Rejected", lpLockPercent: 0, warnings: ["Hard Filter Rejection"], isHoneypot: true, ownerPrivileges: "Unknown" },
+            momentum: { rsi: 50, trendStrength: 0, volumeSpike: 0, accumulation: 0, isOversold: false, isOverbought: false, hasVolumeSpike: false },
+            tradingSignal: { signal: 'AVOID', confidence: 0, entryTiming: 'NEVER', reasoning: ['Failed hard filters'], riskLevel: 'HIGH' },
+            riskReward: null
+        };
+    }
+
+    const s_liq = liquidityScore(token);
+    const s_vol = volumeScore(token);
+    const s_mom = momentumScore(token);
+    const s_vola = volatilityScore(token);
+    const s_mc = marketCapScore(token);
+    const s_wh = whaleScore(token, whales);
+    const s_lh = liquidityHealthScore(token);
+    const s_manip = manipulationScore(token);
+    const safety = safetyScore();
+
+    // Weighted Final Score
+    const finalScore = clamp(
+        s_liq * 0.10 +
+        s_vol * 0.15 +     // Volume is king
+        s_mom * 0.15 +     // Trend is queen
+        s_vola * 0.05 +
+        s_mc * 0.10 +      // Right size matters
+        s_wh * 0.20 +      // Follow the smart money (Higher weight)
+        s_lh * 0.10 +
+        s_manip * 0.05 +
+        safety.score * 0.10 // Safety must be present
+    );
+
+    // Calc Sub-components
+    const momentum = {
+        rsi: Math.round(clamp(50 + token.priceChangeM5 * 2, 0, 100)),
+        trendStrength: Math.round(s_mom),
+        volumeSpike: Math.round(s_vol),
+        accumulation: Math.round(s_wh), // Whale score proxies accumulation
+        isOversold: (50 + token.priceChangeM5 * 2) < 30,
+        isOverbought: (50 + token.priceChangeM5 * 2) > 70,
+        hasVolumeSpike: s_vol > 70
+    };
+
+    // Calc Risk Reward FIRST to pass to Signal if needed, or vice-versa. 
+    // Here we calculate RR first based on raw metrics.
+    const riskReward = calculateRiskReward(token, finalScore);
+    
+    // Gen Signal
+    const tradingSignal = generateTradingSignal(token, { score: finalScore, safetyReport: safety }, momentum, riskReward);
+
+    return {
+        score: Math.round(finalScore),
+        marketScore: Math.round((s_mom + s_vol + s_mc) / 3),
+        whaleScore: Math.round(s_wh),
+        safetyReport: safety,
+        momentum,
+        tradingSignal,
+        riskReward
+    };
+};
+
+// --- COMPONENTS ---
+
+        const DataPoint = ({ icon: Icon, title, value, valueColor = "text-white" }) => (
+            <div className="data-point-minimal p-5 relative group">
+                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-cyan-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                <div className="flex items-center text-gray-500 text-xs uppercase mb-3 tracking-wider">
+                    <Icon className="w-3.5 h-3.5 mr-2 text-cyan-500" />
+                    {title}
+                </div>
+                <div className={`font-mono text-2xl font-semibold ${valueColor}`}>{value}</div>
+            </div>
+        );
+
+        const WhaleWatch = ({ whales }) => (
+            <div className="dark-card p-8 h-[70vh] flex flex-col relative">
+                <div className="geo-bg -top-20 -left-20 opacity-20"></div>
+                <div className="flex items-center justify-between mb-8">
+                    <div>
+                        <h2 className="text-2xl font-bold text-white mb-2">Whale Stream</h2>
+                        <p className="text-sm text-gray-600 uppercase tracking-wider">Transaction Monitoring</p>
+                    </div>
+                    <Users className="w-8 h-8 text-cyan-500" />
+                </div>
+                <div className="overflow-y-auto custom-scrollbar flex-grow space-y-2">
+                    {whales.map((w, i) => (
+                        <div 
+                            key={i} 
+                            className={`dark-card p-4 accent-line cursor-pointer ${
+                                w.type==='BUY' ? 'border-l-2 border-cyan-500' : 'border-l-2 border-red-500'
+                            }`}
+                        >
+                            <div className="flex justify-between items-start mb-2">
+                                <div className="flex items-center gap-3">
+                                    <span className={`text-xs font-semibold uppercase tracking-wider px-2 py-1 border ${
+                                        w.type==='BUY' ? 'border-cyan-500 text-cyan-500' : 'border-red-500 text-red-500'
+                                    }`}>
+                                        {w.type}
+                                    </span>
+                                    <div>
+                                        <div className="font-semibold text-white">{formatCurrency(w.amount, 0)} {w.token}</div>
+                                        <div className="text-xs text-gray-600 mt-0.5">{w.entityLabel}</div>
+                            </div>
+                            </div>
+                                <div className="text-right">
+                                    <div className="font-mono font-semibold text-cyan-500">{formatCurrency(w.valueUsd, 0)}</div>
+                                    <div className="text-xs text-gray-600 mt-0.5">{new Date(w.timestamp).toLocaleTimeString()}</div>
+                                </div>
+                            </div>
+                            <div className="text-xs text-gray-600 font-mono">{w.walletAddress.slice(0, 8)}...{w.walletAddress.slice(-6)}</div>
+                        </div>
+                    ))}
+                </div>
+                <div className="mt-6 pt-4 border-t border-gray-900 text-center">
+                    <div className="inline-flex items-center text-xs text-gray-600">
+                        <Terminal className="w-3 h-3 mr-2 text-cyan-500" />
+                        Real-time data from mocked Arkham API
+                    </div>
+                </div>
+            </div>
+        );
+
+        const PumpScoreBadge = ({ score }) => {
+            const badgeClass = score > 80 ? 'high' : score > 50 ? 'medium' : 'low';
+            return (
+                <span className={`score-badge ${badgeClass} inline-flex items-center`}>
+                    <Zap className="w-3 h-3 mr-1.5" />
+                    <span>{score}</span>
+                </span>
+            );
+        };
+
+        const TradingSignalBadge = ({ signal, confidence }) => {
+            const signalConfig = {
+                'STRONG_BUY': { class: 'buy', icon: ArrowUpCircle, label: 'STRONG BUY' },
+                'BUY': { class: 'buy', icon: TrendingUp, label: 'BUY' },
+                'HOLD': { class: 'hold', icon: Activity, label: 'HOLD' },
+                'SELL': { class: 'sell', icon: TrendingDown, label: 'SELL' },
+                'AVOID': { class: 'sell', icon: AlertTriangle, label: 'AVOID' }
+            };
+            const config = signalConfig[signal] || signalConfig['HOLD'];
+            const Icon = config.icon;
+            return (
+                <div className={`signal-badge ${config.class} inline-flex items-center`}>
+                    <Icon className="w-3.5 h-3.5 mr-2" />
+                    <span>{config.label}</span>
+                    <span className="ml-2 text-xs opacity-60">({confidence}%)</span>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [tokens, setTokens] = useState([]);
+            const [whales, setWhales] = useState([]);
+            const [selectedTokenAddr, setSelectedTokenAddr] = useState(null);
+            const [view, setView] = useState('dashboard');
+            const [gossip, setGossip] = useState("Loading Gossip...");
+
+            const refreshData = async () => {
+                setGossip("Analyzing on-chain data...");
+                const realTokens = await fetchDexScreenerData();
+                const rawWhales = mockArkhamAPI(); // Still mock whales for now as Arkham API is paid/complex
+                
+                const scored = realTokens.map(t => ({ 
+                    ...t, 
+                    pumpScore: calculatePumpScore(t, rawWhales) 
+                })).sort((a,b) => b.pumpScore.score - a.pumpScore.score);
+                
+                setTokens(scored);
+                setWhales(rawWhales);
+                setGossip("Live market data updated. Monitoring new whale movements...");
+            };
+
+            useEffect(() => {
+                refreshData();
+                const i = setInterval(refreshData, UPDATE_INTERVAL_MS);
+                return () => clearInterval(i);
+            }, []);
+
+            // FIX: Prevent body scrolling when modal is open
+            useEffect(() => {
+                if (selectedTokenAddr) {
+                    document.body.classList.add('modal-open');
+                } else {
+                    document.body.classList.remove('modal-open');
+                }
+                return () => {
+                    document.body.classList.remove('modal-open');
+                };
+            }, [selectedTokenAddr]);
+            // END FIX
+
+            const selectedToken = tokens.find(t => t.address === selectedTokenAddr);
+            const chartData = useMemo(() => selectedToken ? generateMockChartData(selectedToken.priceUsd, selectedToken.pumpScore.score) : [], [selectedToken?.priceUsd, selectedToken?.pumpScore.score]);
+
+            // Determine reference line position for chart (positive/negative 24h change)
+            // Safety check: prevent division by zero if priceChangeD1 is exactly -100
+            const referenceValue = selectedToken && selectedToken.priceChangeD1 !== -100 
+                ? selectedToken.priceUsd / (1 + selectedToken.priceChangeD1 / 100) 
+                : selectedToken?.priceUsd || 0;
+            const referenceColor = selectedToken?.priceChangeD1 >= 0 ? '#10b981' : '#ef4444'; // Emerald or Red
+
+            return (
+                <div className="min-h-screen p-6 sm:p-12">
+                    {/* Header - Ultra Minimal */}
+                    <header className="mb-12 pb-6 border-b border-gray-900">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+                            <div className="flex items-center gap-4 w-full justify-center sm:justify-start">
+                                {/* LOGO IMAGE REPLACEMENT */}
+                                <div className="relative group">
+                                    <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 to-purple-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
+                                    <img 
+                                        src="assets/logo.png" 
+                                        alt="Alekrypt Logo" 
+                                        className="relative h-16 sm:h-20 object-contain"
+                                    />
+                                </div>
+                            </div>
+                            <nav className="flex gap-2">
+                                <button 
+                                    onClick={() => setView('dashboard')} 
+                                    className={`minimal-btn px-6 py-2.5 text-sm font-medium uppercase tracking-wider ${
+                                        view === 'dashboard' ? 'active' : ''
+                                    }`}
+                                >
+                                    Dashboard
+                                </button>
+                                <button 
+                                    onClick={() => setView('whale')} 
+                                    className={`minimal-btn px-6 py-2.5 text-sm font-medium uppercase tracking-wider ${
+                                        view === 'whale' ? 'active' : ''
+                                    }`}
+                                >
+                                    Whale Stream
+                                </button>
+                        </nav>
+                        </div>
+                    </header>
+
+                    {/* Content */}
+                    <main className="max-w-full mx-auto">
+                        {view === 'dashboard' ? (
+                            <div className="grid grid-cols-1 gap-6">
+                                {/* Market Feed - Minimal Design */}
+                                <div className="dark-card p-8 relative">
+                                    <div className="geo-bg -top-20 -right-20 opacity-20"></div>
+                                    <div className="flex items-center justify-between mb-8">
+                                        <div>
+                                            <h2 className="text-2xl font-bold text-white mb-2">Market Feed</h2>
+                                            <p className="text-sm text-gray-600 uppercase tracking-wider">High Potential Tokens</p>
+                                        </div>
+                                        <TrendingUp className="w-8 h-8 text-cyan-500" />
+                                    </div>
+                                    <div className="overflow-x-auto custom-scrollbar">
+                                        <table className="min-w-full">
+                                            <thead>
+                                                <tr className="border-b border-gray-900">
+                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">#</th>
+                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">Token</th>
+                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">Price</th>
+                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">24h</th>
+                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">1h</th>
+                                                    <th className="p-4 text-left text-xs text-gray-600 uppercase tracking-wider font-medium">Score</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {tokens.map((t, index) => (
+                                                    <tr 
+                                                        key={t.address} 
+                                                        onClick={() => setSelectedTokenAddr(t.address)} 
+                                                        className={`table-row-minimal cursor-pointer accent-line ${
+                                                            index < 5 ? 'border-l-2 border-cyan-500' : ''
+                                                        }`}
+                                                    >
+                                                        <td className="p-4 number-badge">{index + 1}</td>
+                                                        <td className="p-4">
+                                                            <div className="font-semibold text-white">{t.symbol}</div>
+                                                            <div className="text-xs text-gray-600 mt-0.5">{t.name}</div>
+                                                        </td>
+                                                        <td className="p-4 font-mono text-sm text-gray-400">{formatCurrency(t.priceUsd, 6)}</td>
+                                                        <td className={`p-4 font-mono text-sm font-semibold ${t.priceChangeD1 >= 0 ? 'text-cyan-500' : 'text-red-500'}`}>
+                                                            {t.priceChangeD1 >= 0 ? '+' : ''}{t.priceChangeD1.toFixed(2)}%
+                                                        </td>
+                                                        <td className={`p-4 font-mono text-sm font-semibold ${t.priceChangeH1 >= 0 ? 'text-cyan-500' : 'text-red-500'}`}>
+                                                            {t.priceChangeH1 >= 0 ? '+' : ''}{t.priceChangeH1.toFixed(2)}%
+                                                        </td>
+                                                        <td className="p-4">
+                                                            <PumpScoreBadge score={t.pumpScore.score} />
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div className="p-10 text-center text-zinc-500 font-bold text-lg">Switch to Whale Stream for Transaction Monitoring</div>
+                            </div>
+                        ) : (
+                            <WhaleWatch whales={whales} />
+                        )}
+                    </main>
+
+                    {/* Deep Dive Modal - Minimal Design */}
+                    {selectedToken && (
+                        <div className="fixed inset-0 z-50 bg-black/90 flex items-start justify-center p-6 overflow-y-auto">
+                            <div className="dark-card w-full max-w-6xl p-10 mt-8 mb-8 custom-scrollbar relative">
+                                <div className="geo-bg -top-40 -right-40 opacity-10"></div>
+                                {/* Back Button */}
+                                <button 
+                                    onClick={() => setSelectedTokenAddr(null)} 
+                                    className="minimal-btn mb-8 px-4 py-2 text-sm font-medium uppercase tracking-wider flex items-center"
+                                >
+                                    <ArrowLeft className="w-4 h-4 mr-2" />
+                                    Back
+                                </button>
+                                
+                                <div className="mb-10">
+                                    <h2 className="neon-title text-5xl font-bold text-white mb-4">{selectedToken.symbol}</h2>
+                                    <div className="flex flex-wrap items-center gap-6 mb-6">
+                                        <div>
+                                            <p className="text-xs text-gray-600 uppercase tracking-wider mb-1">Current Price</p>
+                                            <p className="text-2xl font-mono font-semibold text-cyan-500">{formatCurrency(selectedToken.priceUsd, 6)}</p>
+                                        </div>
+                                        <PumpScoreBadge score={selectedToken.pumpScore.score} />
+                                        {selectedToken.pumpScore.tradingSignal && (
+                                            <TradingSignalBadge 
+                                                signal={selectedToken.pumpScore.tradingSignal.signal} 
+                                                confidence={selectedToken.pumpScore.tradingSignal.confidence} 
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="divider"></div>
+                                </div>
+                                
+                                {/* Trading Signal & Entry Timing */}
+                                {selectedToken.pumpScore.tradingSignal && (
+                                    <div className="dark-card p-8 mb-8 relative">
+                                        <div className="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
+                                        <div className="pl-6">
+                                            <div className="flex items-start justify-between mb-6">
+                                                <div>
+                                                    <h3 className="text-xl font-bold text-white mb-2 flex items-center">
+                                                        <Target className="w-5 h-5 mr-2 text-cyan-500" />
+                                                        Trading Signal
+                                                    </h3>
+                                                    <p className="text-sm text-gray-600">Entry Timing: <span className={`font-semibold ${selectedToken.pumpScore.tradingSignal.entryTiming === 'EXCELLENT' ? 'text-cyan-500' : selectedToken.pumpScore.tradingSignal.entryTiming === 'GOOD' ? 'text-purple-500' : 'text-gray-500'}`}>{selectedToken.pumpScore.tradingSignal.entryTiming}</span></p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="text-xs text-gray-600 mb-1 uppercase tracking-wider">Risk</p>
+                                                    <p className={`text-lg font-bold ${selectedToken.pumpScore.tradingSignal.riskLevel === 'LOW' ? 'text-cyan-500' : selectedToken.pumpScore.tradingSignal.riskLevel === 'MEDIUM' ? 'text-purple-500' : 'text-red-500'}`}>
+                                                        {selectedToken.pumpScore.tradingSignal.riskLevel}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                {selectedToken.pumpScore.tradingSignal.reasoning.map((reason, idx) => (
+                                                    <p key={idx} className="text-sm text-gray-400 flex items-start">
+                                                        <span className="text-cyan-500 mr-3 mt-1">—</span>
+                                                        {reason}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Risk/Reward Analysis */}
+                                {selectedToken.pumpScore.riskReward && (
+                                    <div className="dark-card p-8 mb-8">
+                                        <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+                                            <Target className="w-5 h-5 mr-2 text-cyan-500" />
+                                            Risk/Reward Analysis
+                                        </h3>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                            <div className="data-point-minimal">
+                                                <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Stop Loss</p>
+                                                <p className="text-red-500 font-mono font-semibold text-xl mb-1">{formatCurrency(selectedToken.pumpScore.riskReward.stopLoss.price, 6)}</p>
+                                                <p className="text-xs text-gray-600">({selectedToken.pumpScore.riskReward.stopLoss.percent}% below entry)</p>
+                                            </div>
+                                            <div className="data-point-minimal">
+                                                <p className="text-xs text-gray-600 uppercase tracking-wider mb-2">Risk/Reward</p>
+                                                <p className="text-cyan-500 font-mono font-semibold text-2xl mb-1">{selectedToken.pumpScore.riskReward.riskRewardRatio}x</p>
+                                                <p className="text-xs text-gray-600">Position: {selectedToken.pumpScore.riskReward.recommendedPositionSize}</p>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-gray-600 uppercase tracking-wider mb-4">Take Profit Targets</p>
+                                            <div className="grid grid-cols-3 gap-4">
+                                                {selectedToken.pumpScore.riskReward.targets.map((target) => (
+                                                    <div key={target.level} className="data-point-minimal text-center">
+                                                        <p className="text-xs text-gray-600 mb-2 uppercase tracking-wider">{target.label}</p>
+                                                        <p className="text-cyan-500 font-mono font-semibold text-lg mb-1">{formatCurrency(target.price, 6)}</p>
+                                                        <p className="text-xs text-gray-600">+{target.percent}%</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
+
+                                {/* Momentum Indicators */}
+                                {selectedToken.pumpScore.momentum && (
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                        <DataPoint 
+                                            icon={Activity} 
+                                            title="RSI" 
+                                            value={selectedToken.pumpScore.momentum.rsi}
+                                            valueColor={selectedToken.pumpScore.momentum.isOversold ? 'text-emerald-400' : selectedToken.pumpScore.momentum.isOverbought ? 'text-red-400' : 'text-white'}
+                                        />
+                                        <DataPoint 
+                                            icon={TrendingUp} 
+                                            title="Trend Strength" 
+                                            value={selectedToken.pumpScore.momentum.trendStrength}
+                                            valueColor={selectedToken.pumpScore.momentum.trendStrength > 70 ? 'text-emerald-400' : selectedToken.pumpScore.momentum.trendStrength > 40 ? 'text-yellow-400' : 'text-red-400'}
+                                        />
+                                        <DataPoint 
+                                            icon={Zap} 
+                                            title="Volume Spike" 
+                                            value={selectedToken.pumpScore.momentum.volumeSpike}
+                                            valueColor={selectedToken.pumpScore.momentum.hasVolumeSpike ? 'text-emerald-400' : 'text-zinc-400'}
+                                        />
+                                        <DataPoint 
+                                            icon={Target} 
+                                            title="Accumulation" 
+                                            value={selectedToken.pumpScore.momentum.accumulation}
+                                            valueColor={selectedToken.pumpScore.momentum.accumulation > 70 ? 'text-emerald-400' : 'text-zinc-400'}
+                                        />
+                                    </div>
+                                )}
+                                
+                                {/* Key Metrics Grid */}
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                    <DataPoint icon={Gauge} title="Market Cap" value={formatCurrency(selectedToken.marketCapUsd/1000000) + 'M'} />
+                                    <DataPoint icon={DollarSign} title="Liquidity" value={formatCurrency(selectedToken.liquidityUsd/1000000) + 'M'} />
+                                    <DataPoint icon={Clock} title="24h Volume" value={formatCurrency(selectedToken.volume24h/1000000) + 'M'} />
+                                    <DataPoint 
+                                        icon={TrendingUp} 
+                                        title="24h Change" 
+                                        value={selectedToken.priceChangeD1.toFixed(2) + '%'} 
+                                        valueColor={selectedToken.priceChangeD1 >= 0 ? 'text-emerald-400' : 'text-red-400'}
+                                    />
+                                    <DataPoint 
+                                        icon={Shield} 
+                                        title="Risk Level" 
+                                        value={selectedToken.pumpScore.tradingSignal.riskLevel} 
+                                        valueColor={selectedToken.pumpScore.tradingSignal.riskLevel === 'LOW' ? 'text-emerald-400' : 'text-red-400'}
+                                    />
+                                </div>
+
+                                {/* Chart */}
+                                <div className="h-64 dark-card p-6 mb-8">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <AreaChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                                            <defs>
+                                                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4}/><stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/></linearGradient>
+                                                <linearGradient id="colorMA" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#f97316" stopOpacity={0.2}/><stop offset="95%" stopColor="#f97316" stopOpacity={0.0}/></linearGradient>
+                                            </defs>
+                                            <CartesianGrid stroke="#333" vertical={false} strokeDasharray="3 3" />
+                                            <XAxis dataKey="time" hide />
+                                            <YAxis domain={['auto', 'auto']} tickFormatter={v => formatCurrency(v, 4)} stroke="#999" />
+                                            <Tooltip formatter={(value) => [formatCurrency(value, 6), 'Price']} labelFormatter={() => 'Time'} contentStyle={{ backgroundColor: '#18181b', border: '1px solid #3f3f46', color: '#fff' }}/>
+                                            {/* Price (Main Line) */}
+                                            <Area type="monotone" dataKey="price" stroke="#06b6d4" fill="url(#colorPrice)" strokeWidth={2} name="Price" dot={false} connectNulls />
+                                            <Area type="monotone" dataKey="prediction" stroke="#8b5cf6" fill="url(#colorPrice)" strokeWidth={2} name="AI Prediction" dot={false} strokeDasharray="5 5" connectNulls />
+                                            {/* Mock Moving Average (MA) */}
+                                            <Area type="monotone" dataKey="ma" stroke="#f97316" fill="url(#colorMA)" strokeWidth={1} name="MA" dot={false} strokeDasharray="2 2" />
+                                            {/* 24h Starting Price Reference Line */}
+                                            <ReferenceLine y={referenceValue} stroke={referenceColor} strokeDasharray="3 3" label={{ value: '24h Open', fill: referenceColor, fontSize: 12, position: 'right' }} />
+                                        </AreaChart>
+                                    </ResponsiveContainer>
+                                </div>
+
+                                {/* Bot Analysis and Safety */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                    <div className="dark-card p-6 md:col-span-2">
+                                        <h3 className="text-white font-bold text-sm mb-4 flex items-center uppercase tracking-wider">
+                                            <Sparkles className="w-4 h-4 mr-2 text-cyan-500"/> 
+                                            Bot Analysis
+                                        </h3>
+                                        <p className="text-sm text-gray-400 leading-relaxed">"Analysis: Whale activity spiking, suggesting imminent pump. Liquidity is high, which lowers immediate slippage risk. Contract parameters look standard, but owner privilege exists. Recommendation: High risk, high reward profile. Monitor whale wallets closely before entry."</p>
+                                    </div>
+                                    <div className="dark-card p-6">
+                                        <h3 className="text-white font-bold text-sm mb-4 flex items-center uppercase tracking-wider">
+                                            <Shield className="w-4 h-4 mr-2 text-cyan-500"/> 
+                                            Safety
+                                        </h3>
+                                        <div className="space-y-3 text-sm">
+                                            <div>
+                                                <p className="text-gray-600 text-xs mb-1">Audit Status</p>
+                                                <p className="text-cyan-500 font-semibold">{selectedToken.pumpScore.safetyReport.auditStatus}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-600 text-xs mb-1">LP Locked</p>
+                                                <p className="text-cyan-500 font-semibold">{selectedToken.pumpScore.safetyReport.lpLockPercent}%</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-gray-600 text-xs mb-1">Honeypot</p>
+                                                <p className={`font-semibold ${selectedToken.pumpScore.safetyReport.isHoneypot ? 'text-red-500' : 'text-cyan-500'}`}>
+                                                    {selectedToken.pumpScore.safetyReport.isHoneypot ? 'FAIL' : 'PASS'}
+                                        </p>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                                <div className="divider"></div>
+                                <button 
+                                    onClick={() => setSelectedTokenAddr(null)} 
+                                    className="minimal-btn w-full px-6 py-3 text-sm font-medium uppercase tracking-wider flex items-center justify-center"
+                                >
+                                    <ArrowLeft className="w-4 h-4 mr-2" />
+                                    Back to Dashboard
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Footer - Minimal */}
+                    <footer className="mt-20 pt-12 border-t border-gray-900">
+                        <div className="mb-8 text-center">
+                            <div className="inline-flex items-center text-xs text-gray-600 mb-2">
+                                <div className="pulse-dot mr-2"></div>
+                                <span>AI Gossip: "{gossip}"</span>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center">
+                            <div className="flex space-x-8 text-gray-600 text-sm mb-8">
+                                <span className="flex items-center underline-animate">
+                                    <Mail className="w-3.5 h-3.5 mr-2" /> hirensadhanala@gmail.com
+                                </span>
+                                <span className="flex items-center underline-animate">
+                                    <Phone className="w-3.5 h-3.5 mr-2" /> +91 70937 38685
+                                </span>
+                            </div>
+                            <div className="dark-card p-6 flex flex-col items-center">
+                                <p className="text-gray-600 text-xs uppercase tracking-widest mb-2">Architected By</p>
+                                <h3 className="text-2xl font-bold text-white mb-2">HIREN</h3>
+                                <div className="h-px w-16 bg-cyan-500 mb-2"></div>
+                                <p className="text-cyan-500 text-xs font-semibold uppercase tracking-wider">Founder & CEO</p>
+                            </div>
+                        </div>
+                </footer>
+                    <div className="scanline"></div>
+                </div>
+            );
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
